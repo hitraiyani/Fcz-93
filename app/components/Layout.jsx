@@ -31,7 +31,7 @@ export function Layout({children, layout}) {
         {layout?.top_announcement_bar?.announcement_enabled?.value ==
             'true' && (
             <div
-              className={'fsb_bar text-center text-white py-2 align-middle justify-center sticky top-0 z-40  md:flex'}
+              className={'fsb_bar text-center py-2 align-middle justify-center sticky top-0 z-40  md:flex'}
             >
               <div
                 className="px-10"
