@@ -12,8 +12,9 @@ export function FeatureHomeProduct({
 }) {
 
   return (
-    <Section heading={title} padding="y" {...props}>
       <div >
+        <Section heading={title} padding="y" {...props}>
+        </Section>
       <Swiper
               modules={[Navigation,Pagination, Scrollbar, A11y]}
               spaceBetween={1}
@@ -22,8 +23,8 @@ export function FeatureHomeProduct({
           >
         {products.map((product, index) => (
             <SwiperSlide key={index}>
-                <div className="flex flex-wrap">
-                    <div className="w-1/3 items" key={product.id}>
+                <div className="flex flex-wrap justify-center">
+                    <div  key={product.id}>
                         <Link
                             to={`${product.id ? '/products/' + product.handle : product.handle}`}
                             key={product.id}
@@ -31,7 +32,7 @@ export function FeatureHomeProduct({
                         >
                             <div className="flex flex-col justify-center items-center">
                                 <div className="overflow-hidden">
-                                    <img className='block m-auto object-contain w-40 rounded-xl hover:scale-110 transition hover:duration-500' src={product?.variants?.nodes[0]?.image?.url}></img>
+                                    <img className='block m-auto object-contain w-56 rounded-xl hover:scale-110 transition hover:duration-500' src={product?.variants?.nodes[0]?.image?.url}></img>
                                 </div>
                                 <p className='text-sm text-black font-normal text-center leading-tight tracking-normal pt-4'>{product.title}</p>
                             </div>
@@ -42,7 +43,7 @@ export function FeatureHomeProduct({
         ))}
         </Swiper>
       </div>
-    </Section>
+    
   );
 }
 
