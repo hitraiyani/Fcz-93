@@ -21,6 +21,11 @@ import {DEFAULT_LOCALE, parseMenu} from './lib/utils';
 import invariant from 'tiny-invariant';
 import {useAnalytics} from './hooks/useAnalytics';
 
+import swiper from 'swiper/css';
+import swiper_navigation from 'swiper/css/navigation';
+import swiper_pagination from 'swiper/css/pagination';
+import swiper_scrollbar from 'swiper/css/scrollbar';
+
 
 const seo = ({data, pathname}) => ({
   title: data?.layout?.shop?.name,
@@ -39,6 +44,10 @@ export const links = () => {
   return [
     {rel: 'stylesheet', href: tailwind},
     {rel: 'stylesheet', href: styles},
+    {rel: 'stylesheet', href: swiper},
+    {rel: 'stylesheet', href: swiper_navigation},
+    {rel: 'stylesheet', href: swiper_pagination},
+    {rel: 'stylesheet', href: swiper_scrollbar},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -161,6 +170,7 @@ const LAYOUT_QUERY = `#graphql
     $language: LanguageCode
     $headerMenuHandle: String!
     $footerMenuHandle: String!
+    $metaobjectId: ID!
   ) @inContext(language: $language) {
     shop {
       id
@@ -185,6 +195,14 @@ const LAYOUT_QUERY = `#graphql
         }
       }
     }
+    top_announcement_bar : metaobject(id : $metaobjectId) {
+      announcement_enabled: field(key: "announcement_enabled") {
+        value
+      }
+      announcement_text: field(key: "announcement_text") {
+        value
+      }
+    }
   }
   fragment MenuItem on MenuItem {
     id
@@ -202,6 +220,7 @@ async function getLayoutData({storefront}) {
 
   const data = await storefront.query(LAYOUT_QUERY, {
     variables: {
+      metaobjectId: 'gid://shopify/Metaobject/1926136129',
       headerMenuHandle: HEADER_MENU_HANDLE,
       footerMenuHandle: FOOTER_MENU_HANDLE,
       language: storefront.i18n.language,
@@ -228,7 +247,7 @@ async function getLayoutData({storefront}) {
     ? parseMenu(data.footerMenu, customPrefixes)
     : undefined;
 
-  return {shop: data.shop, headerMenu, footerMenu};
+  return {shop: data.shop, headerMenu, footerMenu, top_announcement_bar : data?.top_announcement_bar};
 }
 
 const CART_QUERY = `#graphql

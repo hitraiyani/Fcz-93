@@ -1,4 +1,4 @@
-import {useIsHomePath} from '~/lib/utils';
+import {useIsHomePath, toHTML} from '~/lib/utils';
 import {
   Drawer,
   useDrawer,
@@ -24,9 +24,25 @@ import {useIsHydrated} from '~/hooks/useIsHydrated';
 import {useCartFetchers} from '~/hooks/useCartFetchers';
 
 export function Layout({children, layout}) {
+
   return (
     <>
       <div className="flex flex-col min-h-screen">
+        {layout?.top_announcement_bar?.announcement_enabled?.value ==
+            'true' && (
+            <div
+              className={'fsb_bar text-center text-white py-2 align-middle justify-center sticky top-0 z-40  md:flex'}
+            >
+              <div
+                className="px-10"
+                dangerouslySetInnerHTML={{
+                  __html: toHTML(
+                    layout?.top_announcement_bar?.announcement_text?.value,
+                  ),
+                }}
+              ></div>
+            </div>
+          )}
         <div className="">
           <a href="#mainContent" className="sr-only">
             Skip to content
@@ -46,6 +62,7 @@ export function Layout({children, layout}) {
 }
 
 function Header({title, menu}) {
+
   const isHome = useIsHomePath();
 
   const {

@@ -1,7 +1,7 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Suspense} from 'react';
 import {Await, useLoaderData} from '@remix-run/react';
-import {ProductSwimlane, FeaturedCollections, Hero} from '~/components';
+import {ProductSwimlane, FeaturedCollections, Hero, FeatureHomeProduct} from '~/components';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
 import {AnalyticsPageType} from '@shopify/hydrogen';
@@ -19,7 +19,7 @@ export async function loader({params, context}) {
   }
 
   const {shop, hero} = await context.storefront.query(HOMEPAGE_SEO_QUERY, {
-    variables: {handle: 'freestyle'},
+    variables: {metaObjectId: 'gid://shopify/Metaobject/1925972289'},
   });
 
   return defer({
@@ -41,13 +41,6 @@ export async function loader({params, context}) {
         },
       },
     ),
-    secondaryHero: context.storefront.query(COLLECTION_HERO_QUERY, {
-      variables: {
-        handle: 'backcountry',
-        country,
-        language,
-      },
-    }),
     featuredCollections: context.storefront.query(FEATURED_COLLECTIONS_QUERY, {
       variables: {
         country,
@@ -70,12 +63,12 @@ export async function loader({params, context}) {
 export default function Homepage() {
   const {
     primaryHero,
-    secondaryHero,
     tertiaryHero,
     featuredCollections,
     featuredProducts,
   } = useLoaderData();
 
+   console.log("featuredProducts", featuredProducts);
   // TODO: skeletons vs placeholders
   const skeletons = getHeroPlaceholder([{}, {}, {}]);
 
@@ -98,9 +91,9 @@ export default function Homepage() {
             {({products}) => {
               if (!products?.nodes) return <></>;
               return (
-                <ProductSwimlane
+                <FeatureHomeProduct
                   products={products.nodes}
-                  title="Featured Products"
+                  title="LATEST DROPS"
                   count={4}
                 />
               );
@@ -109,16 +102,6 @@ export default function Homepage() {
         </Suspense>
       )}
 
-      {secondaryHero && (
-        <Suspense fallback={<Hero {...skeletons[1]} />}>
-          <Await resolve={secondaryHero}>
-            {({hero}) => {
-              if (!hero) return <></>;
-              return <Hero {...hero} />;
-            }}
-          </Await>
-        </Suspense>
-      )}
 
       {featuredCollections && (
         <Suspense>
@@ -180,11 +163,22 @@ const COLLECTION_CONTENT_FRAGMENT = `#graphql
 `;
 
 const HOMEPAGE_SEO_QUERY = `#graphql
-  ${COLLECTION_CONTENT_FRAGMENT}
-  query collectionContent($handle: String, $country: CountryCode, $language: LanguageCode)
+${MEDIA_FRAGMENT}
+  query collectionContent($metaObjectId: ID!, $country: CountryCode, $language: LanguageCode)
   @inContext(country: $country, language: $language) {
-    hero: collection(handle: $handle) {
-      ...CollectionContent
+    hero: metaobject(id: $metaObjectId) {
+      handle
+      title : field(key: "title") {
+        value
+      }
+      title_redirect_link : field(key: "title_redirect_link") {
+        value
+      }
+      banner_image : field(key: "banner_image") {
+        reference {
+          ...Media
+        }
+      }
     }
     shop {
       name
@@ -208,7 +202,7 @@ export const HOMEPAGE_FEATURED_PRODUCTS_QUERY = `#graphql
   ${PRODUCT_CARD_FRAGMENT}
   query homepageFeaturedProducts($country: CountryCode, $language: LanguageCode)
   @inContext(country: $country, language: $language) {
-    products(first: 8) {
+    products(first: 5) {
       nodes {
         ...ProductCard
       }
