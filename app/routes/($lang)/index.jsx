@@ -1,7 +1,7 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Suspense} from 'react';
 import {Await, useLoaderData} from '@remix-run/react';
-import {ProductSwimlane, FeaturedCollections, Hero, FeatureHomeProduct, Section} from '~/components';
+import {ProductSwimlane, FeaturedCollections, Hero, FeatureHomeProduct, TopSaleHomeProduct, FittingEveryone, Section} from '~/components';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
 import {AnalyticsPageType} from '@shopify/hydrogen';
@@ -22,9 +22,40 @@ export async function loader({params, context}) {
     variables: {metaObjectId: 'gid://shopify/Metaobject/1925972289'},
   });
 
+  const {top_sale_collection} = await context.storefront.query(
+    HOMEPAGE_TOP_SALE_COLLECTION_QUERY,
+    {
+      variables: {collectionId: 'gid://shopify/Metaobject/1928266049'},
+    },
+  );
+
+  const fittingEveryOne = context.storefront.query(
+    HOMEPAGE_FITTING_EVERYONE_QUERY,
+    {
+      variables: {metaObjectId: 'gid://shopify/Metaobject/1929085249'},
+    },
+  );
+
+
+  const featureSaleCollectionProduct = await context.storefront.query(
+    FEATURED_SALE_COLLECTIONS_QUERY,
+    {
+      variables: {
+        ids: top_sale_collection.collection.value ? [top_sale_collection.collection.value] : [],
+        country,
+        language,
+      },
+    },
+  );
+
   return defer({
     shop,
     primaryHero: hero,
+    featureSaleCollection : {
+      title : top_sale_collection.title.value,
+      data : featureSaleCollectionProduct,
+    },
+    fittingEveryOne,
     // These different queries are separated to illustrate how 3rd party content
     // fetching can be optimized for both above and below the fold.
     featuredProducts: context.storefront.query(
@@ -41,19 +72,6 @@ export async function loader({params, context}) {
         },
       },
     ),
-    featuredCollections: context.storefront.query(FEATURED_COLLECTIONS_QUERY, {
-      variables: {
-        country,
-        language,
-      },
-    }),
-    tertiaryHero: context.storefront.query(COLLECTION_HERO_QUERY, {
-      variables: {
-        handle: 'winter-2022',
-        country,
-        language,
-      },
-    }),
     analytics: {
       pageType: AnalyticsPageType.home,
     },
@@ -63,12 +81,11 @@ export async function loader({params, context}) {
 export default function Homepage() {
   const {
     primaryHero,
-    tertiaryHero,
-    featuredCollections,
     featuredProducts,
+    fittingEveryOne,
+    featureSaleCollection
   } = useLoaderData();
 
-   console.log("featuredProducts", featuredProducts);
   // TODO: skeletons vs placeholders
   const skeletons = getHeroPlaceholder([{}, {}, {}]);
 
@@ -118,18 +135,17 @@ export default function Homepage() {
             </div>
           </div>
       </Section>
-     
 
-
-      {featuredCollections && (
+      {featureSaleCollection && (
         <Suspense>
-          <Await resolve={featuredCollections}>
-            {({collections}) => {
-              if (!collections?.nodes) return <></>;
+          <Await resolve={featureSaleCollection}>
+            {(data) => {
+              if (!data?.data?.nodes[0]?.products) return <></>;
               return (
-                <FeaturedCollections
-                  collections={collections.nodes}
-                  title="Collections"
+                <TopSaleHomeProduct
+                  products={data?.data?.nodes[0]?.products.nodes}
+                  title_handle={data.data?.nodes[0]?.handle}
+                  title={data.title}
                 />
               );
             }}
@@ -137,19 +153,130 @@ export default function Homepage() {
         </Suspense>
       )}
 
-      {tertiaryHero && (
-        <Suspense fallback={<Hero {...skeletons[2]} />}>
-          <Await resolve={tertiaryHero}>
-            {({hero}) => {
-              if (!hero) return <></>;
-              return <Hero {...hero} />;
+      {fittingEveryOne && (
+        <Suspense>
+          <Await resolve={fittingEveryOne}>
+            {(data) => {
+              if (!data.data) return <></>;
+              return (
+                <FittingEveryone
+                  data={data.data}
+                />
+              );
             }}
           </Await>
         </Suspense>
       )}
+
+
+     
     </>
   );
 }
+
+
+// @see: https://shopify.dev/api/storefront/latest/queries/collections
+export const FEATURED_SALE_COLLECTIONS_QUERY = `#graphql
+  query homepageFeaturedCollections($ids: [ID!]!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
+    nodes(ids:$ids) {
+      ...on Collection {
+        id
+        handle
+        title
+        image {
+          id
+          src
+        }
+        products(first: 4) {
+          nodes {
+            id
+            handle
+            title
+            variants (first: 1) {
+              nodes {
+                id,
+                image {
+                  id
+                	url
+                }
+                price {
+                  amount
+                  currencyCode
+                }
+                compareAtPrice {
+                  amount
+                  currencyCode
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const HOMEPAGE_TOP_SALE_COLLECTION_QUERY = `#graphql
+  query homeTopCollections($collectionId: ID!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
+    top_sale_collection : metaobject(id : $collectionId) {
+      handle
+      id
+      type
+      title : field(key: "title") {
+        value
+      }
+      collection : field(key: "collection") {
+        value
+      }
+    }
+      
+  }
+`;
+
+
+const HOMEPAGE_FITTING_EVERYONE_QUERY = `#graphql
+${MEDIA_FRAGMENT}
+  query homeFittingEveryOne($metaObjectId: ID!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
+    data : metaobject(id : $metaObjectId) {
+      handle
+      id
+      type
+      title : field(key: "title") {
+        value
+      }
+      description : field(key: "description") {
+        value
+      }
+      image : field(key: "image") {
+        reference {
+          ...Media
+        }
+      }
+      button_1_label : field(key: "button_1_label") {
+        value
+      }
+      button_1_redirect : field(key: "button_1_redirect") {
+        value
+      }
+      button_2_label : field(key: "button_2_label") {
+        value
+      }
+      button_2_redirect : field(key: "button_2_redirect") {
+        value
+      }
+      button_3_label : field(key: "button_3_label") {
+        value
+      }
+      button_3_redirect : field(key: "button_3_redirect") {
+        value
+      }
+    }
+      
+  }
+`;
 
 const COLLECTION_CONTENT_FRAGMENT = `#graphql
   ${MEDIA_FRAGMENT}
@@ -230,21 +357,31 @@ export const HOMEPAGE_FEATURED_PRODUCTS_QUERY = `#graphql
 
 // @see: https://shopify.dev/api/storefront/latest/queries/collections
 export const FEATURED_COLLECTIONS_QUERY = `#graphql
-  query homepageFeaturedCollections($country: CountryCode, $language: LanguageCode)
+  query homepageFeaturedCollections($ids: [ID!]!, $country: CountryCode, $language: LanguageCode)
   @inContext(country: $country, language: $language) {
-    collections(
-      first: 4,
-      sortKey: UPDATED_AT
-    ) {
-      nodes {
+    nodes(ids:$ids) {
+      ...on Collection {
         id
-        title
         handle
+        title
         image {
-          altText
-          width
-          height
-          url
+          id
+          src
+        }
+        products(first: 1) {
+          nodes {
+            id
+            handle
+            variants (first: 1) {
+              nodes {
+                id,
+                image {
+                  id
+                	url
+                }
+              }
+            }
+          }
         }
       }
     }

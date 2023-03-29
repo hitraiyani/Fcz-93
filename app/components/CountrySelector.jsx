@@ -24,8 +24,6 @@ export function CountrySelector() {
     : '';
 
 
-  console.log("countries", countries);
-
   const {ref, inView} = useInView({
     threshold: 0,
     triggerOnce: true,

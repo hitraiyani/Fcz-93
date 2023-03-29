@@ -298,146 +298,76 @@ function DesktopHeader({isHome, menu, openCart, title}) {
         <div className="main-navbar">
           <nav className="flex flex-wrap justify-between items-center -mb-1">
             {/* Top level menu items */}
-            {(menu?.items || []).map((item) => (
-              <div className="nav-item">
-                <Link
-                  key={item.id}
-                  to={item.to}
-                  target={item.target}
-                  prefetch="intent"
-                  className="text-white font-semibold text-lg py-5 block nav-link"
-                >
-                  {item.title}
-                </Link>
-                <div className="mega-menu hidden absolute bg-black w-full top-full py-20 z-20">
-                  <div className="mega-menu-inner">
-                    <div className="sub-menu flex flex-wrap gap-5 justify-center">
-                      <div className="sub-menu-item w-72 text-center">
-                        <h2 className="sub-menu-title primary-color font-semibold text-lg block uppercase pb-2">
-                          KOLLEKTIONEN
-                        </h2>
-                        <ul className="sub-menu-items flex flex-col gap-1">
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Spring / Summer 23
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Autumn / Winter 23
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Never give up!
-                            </a>
-                          </li>
-                        </ul>
+            {(menu?.items || []).map((item) => {
+              console.log("item", item);
+              return (
+                <div className="nav-item" key={item.id}>
+                  {
+                    item.to != '/' ? (<Link
+                      to={item.to}
+                      target={item.target}
+                      prefetch="intent"
+                      className="text-white font-semibold text-lg py-5 block nav-link"
+                    >
+                      {item.title}
+                    </Link>) : (
+                      <span className="text-white font-semibold text-lg py-5 block nav-link">
+                        {item.title}
+                      </span>
+                    )
+                  }
+                {
+                  item.items.length > 0 && (
+                      <div className="mega-menu hidden absolute bg-black w-full top-full py-20 z-20">
+                        <div className="mega-menu-inner">
+                          <div className="sub-menu flex flex-wrap gap-5 justify-center">
+                            { <SubMegaMenu menu_items={item.items} />}
+                          </div>
+                        </div>
                       </div>
-                      <div className="sub-menu-item w-72 text-center">
-                        <h2 className="sub-menu-title primary-color font-semibold text-lg block uppercase pb-2">
-                          BEKLEIDUNG
-                        </h2>
-                        <ul className="sub-menu-items  flex flex-col gap-1">
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Sweatshirts
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Poloshirts
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Trainingsanzüge
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Jacken & Mäntel
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Pullover
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              T-Shirts
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Hosen & Shorts
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Hemden
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="sub-menu-item w-72 text-center">
-                        <h2 className="sub-menu-title primary-color font-semibold text-lg block uppercase pb-2">
-                          ACCESSOIRES
-                        </h2>
-                        <ul className="sub-menu-items flex flex-col gap-1">
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Caps & Hüte
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Mützen
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Gürtel
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Uhren
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Schmuck
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Sonnenbrillen
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              Heimtextilien
-                            </a>
-                          </li>
-                          <li className="nav-item">
-                            <a className="text-white font-semibold text-lg block">
-                              iPhone Cases
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  )
+                }
               </div>
-            ))}
+              )
+            })}
           </nav>
           <></>
         </div>
       </div>
     </header>
+  );
+}
+
+function SubMegaMenu({menu_items}) {
+
+  return (
+    <>
+      {(menu_items || []).map((item) => {
+          return (
+            <div key={item.id} className="sub-menu-item w-72 text-center">
+            <h2 className="sub-menu-title primary-color font-semibold text-lg block uppercase pb-2">
+              {item.title}
+            </h2>
+            <ul className="sub-menu-items flex flex-col gap-1">
+                {(item?.items || []).map((sub_item) => {
+                  return (
+                    <li className="nav-item" key={sub_item.id}>
+                      <Link
+                        to={sub_item.to}
+                        target={sub_item.target}
+                        prefetch="intent"
+                        className="text-white font-semibold text-lg block"
+                      >
+                        {sub_item.title}
+                      </Link>
+                    </li>
+                  )
+                })}
+            </ul>
+          </div>
+          );
+      })}
+    </>
   );
 }
 

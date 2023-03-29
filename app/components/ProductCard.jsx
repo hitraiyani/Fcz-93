@@ -118,7 +118,7 @@ export function ProductCard({
   );
 }
 
-function CompareAtPrice({data, className}) {
+export function CompareAtPrice({data, className}) {
   const {currencyNarrowSymbol, withoutTrailingZerosAndCurrency} =
     useMoney(data);
 

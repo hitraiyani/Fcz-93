@@ -184,7 +184,20 @@ const LAYOUT_QUERY = `#graphql
       items {
         ...MenuItem
         items {
-          ...MenuItem
+          id
+          resourceId
+          tags
+          title
+          type
+          url
+          items {
+            id
+            resourceId
+            tags
+            title
+            type
+            url
+          }
         }
       }
     }
