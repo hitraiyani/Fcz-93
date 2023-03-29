@@ -9,6 +9,8 @@ import {
   IconSearch,
   Heading,
   IconMenu,
+  IconMenuSearch,
+  NewcartIcon,
   IconCaret,
   Section,
   CountrySelector,
@@ -27,12 +29,12 @@ import {Image} from '@shopify/hydrogen';
 export function Layout({children, layout}) {
   return (
     <>
-      <div className="overflow-x-hidden">
+      <div className="">
         {layout?.top_announcement_bar?.announcement_enabled?.value ==
           'true' && (
           <div
             className={
-              'fsb_bar text-center pt-6 pb-2  align-middle text-sm  justify-center bg-black font-extralight'
+              'fsb_bar text-center pt-3 pb-3 md:pt-6 md:pb-2  align-middle text-sm  justify-center bg-black font-extralight'
             }
           >
             <div
@@ -126,101 +128,165 @@ function CartDrawer({isOpen, onClose}) {
 
 export function MenuDrawer({isOpen, onClose, menu}) {
   return (
-    <Drawer open={isOpen} onClose={onClose} openFrom="left" heading="Menu">
-      <div className="grid">
-        <MenuMobileNav menu={menu} onClose={onClose} />
-      </div>
+    <Drawer
+      open={isOpen}
+      onClose={onClose}
+      openFrom="left"
+      heading="Menu"
+      className="bg-black px-4 mobile-menu-Drawer py-11"
+    >
+      <MenuMobileNav menu={menu} onClose={onClose} />
     </Drawer>
   );
 }
 
-function MenuMobileNav({menu, onClose}) {
+function MenuMobileNav({menu, onClose, isHome}) {
+  const params = useParams();
+  const megaMenuMobileClick = (event) => {
+    event.currentTarget.classList.toggle('active');
+  };
   return (
-    <nav className="grid gap-4 p-6 sm:gap-6 sm:px-12 sm:py-8">
-      {/* Top level menu items */}
-      {(menu?.items || []).map((item) => (
-        <span key={item.id} className="block">
+    <>
+      <div className="logo-wrap w-full pb-6">
+        <Link className="" to="/" prefetch="intent">
+          <Image
+            data={{
+              url: 'https://cdn.shopify.com/s/files/1/0739/7172/8705/files/logo.svg?v=1680004853',
+              width: 82,
+              height: 36,
+              altText: '93',
+            }}
+            className="logo-img mx-auto"
+            loaderOptions={{
+              scale: 2,
+              crop: 'center',
+            }}
+            alt="93"
+          />
+        </Link>
+      </div>
+      <Form
+        method="get"
+        action={params.lang ? `/${params.lang}/search` : '/search'}
+        className="items-center gap-2 flex mobile-search relative w-full mb-3"
+      > 
+        <Input
+          className={`${
+            isHome ? '' : ''
+          } block pl-4 py-2 pr-9 placeholder:text-white text-base form-control w-full`}
+          type="search"
+          variant="minisearch"
+          placeholder="Search"
+          name="q"
+        />
+        <button
+          type="submit"
+          className="text-white absolute inset-y-0 right-2 flex items-center w-7 h-full"
+        >
+          <IconSearch className="w-full h-full" />
+        </button>
+      </Form>
+      <div className="login-cart-btn flex justify-center mb-3 gap-5">
+        <Link
+          to="/account"
+          className="relative flex items-center justify-center text-lg font-normal uppercase text-white"
+        >
+          Login
+        </Link>
+        <Link
+          to="/cart"
+          className="relative flex items-center justify-center w-8 h-8"
+        >
+          <NewcartIcon />
+        </Link>
+      </div>
+      <nav className="flex flex-col mobile-nav">
+        {/* Top level menu items */}
+        {(menu?.items || []).map((item) => (
+          <span key={item.id} className="nav-item relative" onClick={megaMenuMobileClick}>
           <Link
             to={item.to}
             target={item.target}
             onClick={onClose}
-            className={({isActive}) =>
-              isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
-            }
+            // className={({isActive}) =>
+            //   isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
+            // }
+            className="text-white font-semibold text-lg py-3 block nav-link"
           >
             <Text as="span" size="copy">
-              {item.title}
+              {item.title}  
             </Text>
           </Link>
+          <span className="toggle-btn absolute right-0 top-0 w-10 h-full  text-white flex items-center justify-center">
+            <svg
+              className="icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width={20} 
+              height={20}
+              viewBox="0 0 32 32"
+            >
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="m6 12l10 10l10-10"
+              />
+            </svg>
+          </span>
+          <div className='sub-menu'></div>
         </span>
-      ))}
-    </nav>
+        ))}
+      </nav>
+    </>
   );
 }
 
 function MobileHeader({title, isHome, openCart, openMenu}) {
   // useHeaderStyleFix(containerStyle, setContainerStyle, isHome);
 
-  const params = useParams();
-
   return (
     <header
       role="banner"
       className={`${
-        isHome
-          ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
-          : 'bg-contrast/80 text-primary'
-      } flex lg:hidden items-center h-nav sticky backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-4 px-4 md:px-8`}
+        isHome ? '' : ''
+      } md:hidden sticky z-40 top-0 justify-between w-full leading-none gap-4 py-5 md:px-8 mobile-header bg-black`}
     >
-      <div className="flex items-center justify-start w-full gap-4">
-        <button
-          onClick={openMenu}
-          className="relative flex items-center justify-center w-8 h-8"
-        >
-          <IconMenu />
-        </button>
-        <Form
-          method="get"
-          action={params.lang ? `/${params.lang}/search` : '/search'}
-          className="items-center gap-2 sm:flex"
-        >
-          <button
-            type="submit"
-            className="relative flex items-center justify-center w-8 h-8"
-          >
-            <IconSearch />
-          </button>
-          <Input
-            className={
-              isHome
-                ? 'focus:border-contrast/20 dark:focus:border-primary/20'
-                : 'focus:border-primary/20'
-            }
-            type="search"
-            variant="minisearch"
-            placeholder="Search"
-            name="q"
-          />
-        </Form>
-      </div>
+      <div className="container">
+        <div className="flex items-center">
+          <div className="flex items-center justify-start gap-4 flex-1">
+            <button
+              onClick={openMenu}
+              className="relative flex items-center justify-center w-10 h-10"
+            >
+              <IconMenuSearch />
+            </button>
+          </div>
 
-      <Link
-        className="flex items-center self-stretch leading-[3rem] md:leading-[4rem] justify-center flex-grow w-full h-full"
-        to="/"
-      >
-        <Heading className="font-bold text-center" as={isHome ? 'h1' : 'h2'}>
-          {title}
-        </Heading>
-      </Link>
+          <div className="logo-wrap flex-1">
+            <Link className="" to="/" prefetch="intent">
+              <Image
+                data={{
+                  url: 'https://cdn.shopify.com/s/files/1/0739/7172/8705/files/logo.svg?v=1680004853',
+                  width: 82,
+                  height: 36,
+                  altText: '93',
+                }}
+                className="logo-img mx-auto"
+                loaderOptions={{
+                  scale: 2,
+                  crop: 'center',
+                }}
+                alt="93"
+              />
+            </Link>
+          </div>
 
-      <div className="flex items-center justify-end w-full gap-4">
-        <Link
-          to="/account"
-          className="relative flex items-center justify-center w-8 h-8"
-        >
-          <IconAccount />
-        </Link>
-        <CartCount isHome={isHome} openCart={openCart} />
+          <div className="flex items-center justify-end gap-4 flex-1">
+            <CartCount isHome={isHome} openCart={openCart} />
+          </div>
+        </div>
       </div>
     </header>
   );
@@ -234,7 +300,7 @@ function DesktopHeader({isHome, menu, openCart, title}) {
       role="banner"
       className={`${isHome ? 'index-header' : ''} ${
         !isHome && y > 50 && ' shadow-lightHeader'
-      } site-header bg-black sticky top-0 z-10`}
+      } site-header bg-black sticky top-0 z-10 hidden md:block`}
     >
       <div className="container mx-auto">
         <div className="header-top flex flex-wrap justify-between items-center py-5">
@@ -394,43 +460,8 @@ function Badge({openCart, dark, count}) {
   const BadgeCounter = useMemo(
     () => (
       <>
-        <svg
-          className="icon w-7 h-7 fill-white"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-          viewBox="0 0 22.277 28.944"
-        >
-          {' '}
-          <defs>
-            {' '}
-            <clipPath id="clip-path">
-              {' '}
-              <rect
-                id="Rectangle_7"
-                data-name="Rectangle 7"
-                width="22.277"
-                height="28.944"
-                fill="none"
-                stroke="#fff"
-                strokeWidth="0.5"
-              />{' '}
-            </clipPath>{' '}
-          </defs>{' '}
-          <g id="Group_5" data-name="Group 5" clipPath="url(#clip-path)">
-            {' '}
-            <path
-              id="Path_5"
-              data-name="Path 5"
-              d="M20.3,26.926a.58.58,0,0,1-.471.209H2.443a.58.58,0,0,1-.469-.209.6.6,0,0,1-.161-.492L3.607,9.441a.636.636,0,0,1,.63-.571H5.852v1.351a.9.9,0,0,0,1.809,0V8.87h6.956v1.351h0a.9.9,0,1,0,1.809,0V8.87H18.04a.636.636,0,0,1,.63.571l1.8,17a.6.6,0,0,1-.161.492ZM7.661,5.286a3.478,3.478,0,1,1,6.956,0V7.061H7.661ZM20.47,9.249a2.441,2.441,0,0,0-2.43-2.187H16.426V5.287h0a5.287,5.287,0,0,0-10.573,0V7.062H4.237A2.442,2.442,0,0,0,1.808,9.249l-1.794,17a2.441,2.441,0,0,0,2.429,2.7H19.835a2.442,2.442,0,0,0,2.429-2.7l-1.795-17Z"
-              transform="translate(0 0)"
-              fill="#fff"
-              stroke="#fff"
-              strokeWidth="0.5"
-              fillRule="evenodd"
-            />{' '}
-          </g>{' '}
-        </svg>
-        <div className={`${dark ? '' : ''} absolute top-0 right-0 counter`}>
+        <NewcartIcon />
+        <div className={`${dark ? '' : ''}  absolute top-0 right-0 counter`}>
           <span>{count || 0}</span>
         </div>
       </>
@@ -471,10 +502,10 @@ function Footer({menu}) {
       className={`bg-black site-footer px-0 py-10`}
     >
       <div className="container mx-auto">
-        <div className="footer-row flex flex-wrap -mx-4">
-          <div className="footer-col w-1/4 px-4">
+        <div className="footer-row flex flex-wrap -mx-4 gap-y-8">
+          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4">
             <div className="col-inner">
-              <h4 className="title text-xl primary-color uppercase pb-10">
+              <h4 className="title text-xl primary-color uppercase pb-5 md:pb-7 lg:pb-10">
                 QUICK LINKS
               </h4>
               <div className="nav-bar">
@@ -501,8 +532,8 @@ function Footer({menu}) {
                   </li>
                 </ul>
               </div>
-              <div className="social-links pt-14">
-                <ul className="flex flex-wrap gap-3">
+              <div className="social-links pt-5 md:pt-6 lg:pt-14">
+                <ul className="flex flex-wrap gap-1 md:gap-2 lg:gap-3">
                   <li>
                     <a href="#">
                       <svg
@@ -520,7 +551,6 @@ function Footer({menu}) {
                   </li>
                   <li>
                     <a href="#">
-                      {' '}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width={1024}
@@ -536,7 +566,6 @@ function Footer({menu}) {
                   </li>
                   <li>
                     <a href="#">
-                      {' '}
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width={24}
@@ -569,9 +598,9 @@ function Footer({menu}) {
               </div>
             </div>
           </div>
-          <div className="footer-col w-1/4 px-4">
+          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4">
             <div className="col-inner">
-              <h4 className="title text-xl primary-color uppercase pb-10">
+              <h4 className="title text-xl primary-color uppercase pb-5 md:pb-7 lg:pb-10">
                 ÜBER 93.
               </h4>
               <div className="nav-bar">
@@ -610,9 +639,9 @@ function Footer({menu}) {
               </div>
             </div>
           </div>
-          <div className="footer-col w-1/4 px-4">
+          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4">
             <div className="col-inner">
-              <h4 className="title text-xl primary-color uppercase pb-10">
+              <h4 className="title text-xl primary-color uppercase pb-5 md:pb-7 lg:pb-10">
                 SUPPORT
               </h4>
               <div className="nav-bar">
@@ -646,20 +675,49 @@ function Footer({menu}) {
               </div>
             </div>
           </div>
-          <div className="footer-col w-1/4 px-4">
+          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4">
             <div className="col-inner">
               <h4 className="title text-xl primary-color uppercase pb-5">
                 10% OFF + FREE SHIPPING ON YOUR FIRST ORDER
               </h4>
               <h6 className="sub-title text-base text-white"></h6>
-              <form action="" className='subscribe-form'>
-                <label htmlFor="email" className="sr-only" > Your email </label>
-                <input type="email" id="email" className="placeholder:text-white border border-white p-3 w-full bg-transparent focus:outline-none font-normal placeholder:font-normal text-white" placeholder="Email" required />
-                <p className='note text-white text- py-4 font-normal'>By subscribing, I agree that the 93. AG may email me news and offers. I can <a href='#' className='underline'>unsubscribe</a> at any time. I have read the 93. <a href='#' className='underline'>Privacy Policy</a>.</p>
-                <button type="submit" className="w-full text-center p-3 uppercase submit-btn text-black hover:opacity-75 transition-all font-black">SIGN UP</button>
+              <form action="" className="subscribe-form">
+                <label htmlFor="email" className="sr-only">
+                  Your email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  className="placeholder:text-white border border-white p-3 w-full bg-transparent focus:outline-none font-normal placeholder:font-normal text-white"
+                  placeholder="Email"
+                  required
+                />
+                <p className="note text-white text- py-4 font-normal">
+                  By subscribing, I agree that the 93. AG may email me news and
+                  offers. I can
+                  <a href="#" className="underline">
+                    unsubscribe
+                  </a>
+                  at any time. I have read the 93.
+                  <a href="#" className="underline">
+                    Privacy Policy
+                  </a>
+                  .
+                </p>
+                <button
+                  type="submit"
+                  className="w-full text-center p-3 uppercase submit-btn text-black hover:opacity-75 transition-all font-black"
+                >
+                  SIGN UP
+                </button>
               </form>
             </div>
           </div>
+        </div>
+        <div className="copyright-wrap pt-8">
+          <p className="text-center text-white text-sm font-normal">
+            © 2023 93. AG. Alle Rechte Vorbehalten
+          </p>
         </div>
       </div>
       {/* <FooterMenu menu={menu} /> */}
