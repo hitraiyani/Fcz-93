@@ -12,7 +12,7 @@ export function ProductCard({
   onClick,
   quickAdd,
 }) {
-  let cardLabel;
+  //let cardLabel;
 
   const cardProduct = product?.variants ? product : getProductPlaceholder();
   if (!cardProduct?.variants?.nodes?.length) return null;
@@ -22,13 +22,13 @@ export function ProductCard({
   if (!firstVariant) return null;
   const {image, price, compareAtPrice} = firstVariant;
 
-  if (label) {
-    cardLabel = label;
-  } else if (isDiscounted(price, compareAtPrice)) {
-    cardLabel = 'Sale';
-  } else if (isNewArrival(product.publishedAt)) {
-    cardLabel = 'New';
-  }
+  // if (label) {
+  //   cardLabel = label;
+  // } else if (isDiscounted(price, compareAtPrice)) {
+  //   cardLabel = 'Sale';
+  // } else if (isNewArrival(product.publishedAt)) {
+  //   cardLabel = 'New';
+  // }
 
   const productAnalytics = {
     productGid: product.id,
@@ -65,13 +65,6 @@ export function ProductCard({
                 loading={loading}
               />
             )}
-            <Text
-              as="label"
-              size="fine"
-              className="absolute top-0 right-0 m-4 text-right text-notice"
-            >
-              {cardLabel}
-            </Text>
           </div>
           <div className="grid gap-1">
             <Text

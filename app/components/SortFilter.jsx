@@ -17,7 +17,7 @@ export function SortFilter({
   children,
   collections = [],
 }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   return (
     <>
       <div className="flex items-center justify-between w-full">
@@ -27,10 +27,14 @@ export function SortFilter({
             'relative flex items-center justify-center w-8 h-8 focus:ring-primary/5'
           }
         >
-          <IconFilters />
         </button>
         <SortMenu />
       </div>
+        <FiltersDrawer
+          collections={collections}
+          filters={filters}
+          appliedFilters={appliedFilters}
+        />
       <div className="flex flex-col flex-wrap md:flex-row">
         <div
           className={`transition-all duration-200 ${
@@ -39,13 +43,7 @@ export function SortFilter({
               : 'opacity-0 md:min-w-[0px] md:w-[0px] pr-0 max-h-0 md:max-h-full'
           }`}
         >
-          <FiltersDrawer
-            collections={collections}
-            filters={filters}
-            appliedFilters={appliedFilters}
-          />
         </div>
-        <div className="flex-1">{children}</div>
       </div>
     </>
   );
@@ -105,20 +103,20 @@ export function FiltersDrawer({
 
   return (
     <>
-      <nav className="py-8">
+      <nav className="">
         {appliedFilters.length > 0 ? (
           <div className="pb-8">
             <AppliedFilters filters={appliedFilters} />
           </div>
         ) : null}
 
-        <Heading as="h4" size="lead" className="pb-4">
+        <div className='flex'>
+        <Heading as="h4" size="lead" className='w-16'>
           Filter By
         </Heading>
-        <div className="divide-y">
           {filters.map(
             (filter) =>
-              filter.values.length > 1 && (
+              filter.values.length > 0 && (
                 <Disclosure as="div" key={filter.id} className="w-full">
                   {({open}) => (
                     <>

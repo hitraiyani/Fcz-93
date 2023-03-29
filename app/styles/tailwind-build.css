@@ -619,9 +619,6 @@ video {
 .-mb-1 {
   margin-bottom: -0.25rem;
 }
-.-mb-px {
-  margin-bottom: -1px;
-}
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -673,6 +670,9 @@ video {
 .mt-8 {
   margin-top: 2rem;
 }
+.mb-11 {
+  margin-bottom: 2.75rem;
+}
 .block {
   display: block;
 }
@@ -712,6 +712,9 @@ video {
 .h-10 {
   height: 2.5rem;
 }
+.h-14 {
+  height: 3.5rem;
+}
 .h-24 {
   height: 6rem;
 }
@@ -742,9 +745,6 @@ video {
 }
 .h-screen {
   height: 100vh;
-}
-.h-14 {
-  height: 3.5rem;
 }
 .max-h-0 {
   max-height: 0px;
@@ -790,9 +790,6 @@ video {
 }
 .w-7 {
   width: 1.75rem;
-}
-.w-72 {
-  width: 18rem;
 }
 .w-8 {
   width: 2rem;
@@ -979,6 +976,9 @@ video {
 .gap-2 {
   gap: 0.5rem;
 }
+.gap-3 {
+  gap: 0.75rem;
+}
 .gap-4 {
   gap: 1rem;
 }
@@ -991,12 +991,12 @@ video {
 .gap-8 {
   gap: 2rem;
 }
-.gap-3 {
-  gap: 0.75rem;
-}
 .gap-x-6 {
   -moz-column-gap: 1.5rem;
        column-gap: 1.5rem;
+}
+.gap-y-0 {
+  row-gap: 0px;
 }
 .gap-y-2 {
   row-gap: 0.5rem;
@@ -1006,9 +1006,6 @@ video {
 }
 .gap-y-8 {
   row-gap: 2rem;
-}
-.gap-y-0 {
-  row-gap: 0px;
 }
 .space-y-3 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
@@ -1233,10 +1230,6 @@ video {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
-.py-10 {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-}
 .py-11 {
   padding-top: 2.75rem;
   padding-bottom: 2.75rem;
@@ -1268,6 +1261,9 @@ video {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+.pb-0 {
+  padding-bottom: 0px;
 }
 .pb-1 {
   padding-bottom: 0.25rem;
@@ -1344,8 +1340,11 @@ video {
 .pt-8 {
   padding-top: 2rem;
 }
-.pb-0 {
-  padding-bottom: 0px;
+.pb-10 {
+  padding-bottom: 2.5rem;
+}
+.pt-10 {
+  padding-top: 2.5rem;
 }
 .text-left {
   text-align: left;
@@ -1416,6 +1415,9 @@ video {
 }
 .uppercase {
   text-transform: uppercase;
+}
+.capitalize {
+  text-transform: capitalize;
 }
 .italic {
   font-style: italic;
@@ -1792,6 +1794,10 @@ video {
     width: 58.333333%;
   }
 
+  .md\:w-72 {
+    width: 18rem;
+  }
+
   .md\:w-\[0px\] {
     width: 0px;
   }
@@ -1802,10 +1808,6 @@ video {
 
   .md\:w-full {
     width: 100%;
-  }
-
-  .md\:w-72 {
-    width: 18rem;
   }
 
   .md\:min-w-\[0px\] {
@@ -2097,5 +2099,9 @@ video {
 
   .xl\:aspect-\[2\/1\] {
     aspect-ratio: 2/1;
+  }
+
+  .xl\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }

@@ -2,7 +2,7 @@ import {json} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import {flattenConnection, AnalyticsPageType} from '@shopify/hydrogen';
 import invariant from 'tiny-invariant';
-import {PageHeader, Section, Text, SortFilter} from '~/components';
+import {PageHeader, Section, Text, SortFilter, Heading} from '~/components';
 import {ProductGrid} from '~/components/ProductGrid';
 import {PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 
@@ -122,31 +122,34 @@ export default function Collection() {
 
   return (
     <>
-      <PageHeader heading={collection.title}>
+      <div className="product-collections-sec pb-10 container pt-10 block mx-auto">
+        <Heading as="h1" className='text-2xl mb-2 text-black font-semibold capitalize'>
+          {collection.title}
+        </Heading>
         {collection?.description && (
-          <div className="flex items-baseline justify-between w-full">
-            <div>
-              <Text format width="narrow" as="p" className="inline-block">
-                {collection.description}
-              </Text>
-            </div>
+          <div className="flex items-baseline justify-between w-full mb-11">
+          <div>
+            <Text format as="p" className="block text-lg uppercase text-black">
+            {collection.description}
+            </Text>
+          </div>
           </div>
         )}
-      </PageHeader>
-      <Section>
         <SortFilter
-          filters={collection.products.filters}
-          appliedFilters={appliedFilters}
-          collections={collections}
-        >
+            filters={collection.products.filters}
+            appliedFilters={appliedFilters}
+            collections={collections}
+          >
+          </SortFilter>
+        <div data-test="product-grid" className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           <ProductGrid
-            key={collection.id}
-            collection={collection}
-            url={`/collections/${collection.handle}`}
-            data-test="product-grid"
-          />
-        </SortFilter>
-      </Section>
+              key={collection.id}
+              collection={collection}
+              url={`/collections/${collection.handle}`}
+              data-test="product-grid"
+            />
+        </div>
+      </div>
     </>
   );
 }

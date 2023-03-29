@@ -54,16 +54,13 @@ export function ProductGrid({url, collection, ...props}) {
 
   return (
     <>
-      <Grid layout="products" {...props}>
-        {products.map((product, i) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            loading={getImageLoadingPriority(i)}
-          />
-        ))}
-      </Grid>
-
+      {products.map((product, i) => (
+        <ProductCard
+          key={product.id}
+          product={product}
+          loading={getImageLoadingPriority(i)}
+        />
+      ))}
       {nextPage && (
         <div className="flex items-center justify-center mt-6">
           <Button
