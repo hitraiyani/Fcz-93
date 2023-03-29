@@ -6,7 +6,6 @@
 body{
   font-family: var(--font-family-Kallisto);
   font-weight: 300;
-  letter-spacing: 1px;
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -22,7 +21,16 @@ h1,h2,h3,h4,h5,h6{
 .site-header .container{
   max-width: 1150px;
 }
+.primary-color{
+  color: var(--primary-color);
+}
+a:hover{
+  color: var(--primary-color);
+}
 /* header css */
+.site-header {
+  border-bottom: 4px solid var(--primary-color);
+}
 .site-header .counter{
   right: 13px;
   height: 20px;
@@ -42,4 +50,57 @@ h1,h2,h3,h4,h5,h6{
 .fsb_bar{
   color: var(--primary-color);
 }
+.main-navbar .nav-item .nav-link{
+  border-bottom: 8px solid transparent;
+}
+.main-navbar .nav-item:hover .nav-link{
+  border-bottom: 8px solid var(--primary-color);
+} 
+/* mega menu css */
+.main-navbar .nav-item:hover > .mega-menu{
+  display: block;
+}
+.mega-menu{
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100%;
+    width: 100vw;
+    border-top: 2px solid var(--primary-color);
+}
+/* End mega menu css */
+
 /* End header css */
+
+/* footer css */
+.site-footer .social-links a svg,
+.site-footer .social-links a svg img{
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  fill: var(--primary-color);
+}
+.site-footer .social-links a:hover{
+  opacity: 0.75;
+}
+.site-footer .social-links a{
+  color: var(--primary-color);
+}
+.site-footer .subscribe-form .submit-btn{
+  background-color: var(--primary-color);
+}
+.site-footer .subscribe-form input{
+  border-color: var(--primary-color);
+}
+.site-footer .subscribe-form .note{
+  font-size: 10px;
+}
+/* End footer css */
+
+
+/* hero banner section */
+.hero-banner .btn{
+  border-bottom: 3px solid var(--primary-color);
+}
+/* End hero banner section */
