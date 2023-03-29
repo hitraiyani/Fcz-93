@@ -133,7 +133,7 @@ export function MenuDrawer({isOpen, onClose, menu}) {
       onClose={onClose}
       openFrom="left"
       heading="Menu"
-      className="bg-black px-4 mobile-menu-Drawer py-11"
+      className="bg-black px-4 mobile-menu-Drawer py-11 overflow-auto"
     >
       <MenuMobileNav menu={menu} onClose={onClose} />
     </Drawer>
@@ -169,7 +169,7 @@ function MenuMobileNav({menu, onClose, isHome}) {
         method="get"
         action={params.lang ? `/${params.lang}/search` : '/search'}
         className="items-center gap-2 flex mobile-search relative w-full mb-3"
-      > 
+      >
         <Input
           className={`${
             isHome ? '' : ''
@@ -202,42 +202,61 @@ function MenuMobileNav({menu, onClose, isHome}) {
       </div>
       <nav className="flex flex-col mobile-nav">
         {/* Top level menu items */}
-        {(menu?.items || []).map((item) => (
-          <span key={item.id} className="nav-item relative" onClick={megaMenuMobileClick}>
-          <Link
-            to={item.to}
-            target={item.target}
-            onClick={onClose}
-            // className={({isActive}) =>
-            //   isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
-            // }
-            className="text-white font-semibold text-lg py-3 block nav-link"
-          >
-            <Text as="span" size="copy">
-              {item.title}  
-            </Text>
-          </Link>
-          <span className="toggle-btn absolute right-0 top-0 w-10 h-full  text-white flex items-center justify-center">
-            <svg
-              className="icon"
-              xmlns="http://www.w3.org/2000/svg"
-              width={20} 
-              height={20}
-              viewBox="0 0 32 32"
+        {(menu?.items || []).map((item) => {
+          return (
+            <div
+              className="nav-item relative"
+              key={item.id}
+              onClick={megaMenuMobileClick}
             >
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="m6 12l10 10l10-10"
-              />
-            </svg>
-          </span>
-          <div className='sub-menu'></div>
-        </span>
-        ))}
+              {item.to != '/' ? (
+                <>
+                  <Link
+                    to={item.to}
+                    target={item.target}
+                    prefetch="intent"
+                    className="text-white font-semibold text-lg py-5 block nav-link"
+                  >
+                    {item.title}
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <span className="text-white font-semibold text-lg py-3 block nav-link cursor-pointer">
+                    {item.title}
+                  </span>
+                  <span className="toggle-btn absolute right-0 top-0 w-10 h-14 text-white flex items-center justify-center cursor-pointer">
+                    <svg
+                      className="icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={20}
+                      height={20}
+                      viewBox="0 0 32 32"
+                    >
+                      <path
+                        fill="none"
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="m6 12l10 10l10-10"
+                      />
+                    </svg>
+                  </span>
+                </>
+              )}
+              {item.items.length > 0 && (
+                <div className="mega-menu hidden absolute bg-black w-full top-full py-20 z-20">
+                  <div className="mega-menu-inner">
+                    <div className="sub-menu flex flex-wrap gap-5 justify-center">
+                      {<SubMegaMenu menu_items={item.items} />}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </nav>
     </>
   );
@@ -367,33 +386,31 @@ function DesktopHeader({isHome, menu, openCart, title}) {
             {(menu?.items || []).map((item) => {
               return (
                 <div className="nav-item" key={item.id}>
-                  {
-                    item.to != '/' ? (<Link
+                  {item.to != '/' ? (
+                    <Link
                       to={item.to}
                       target={item.target}
                       prefetch="intent"
                       className="text-white font-semibold text-lg py-5 block nav-link"
                     >
                       {item.title}
-                    </Link>) : (
-                      <span className="text-white font-semibold text-lg py-5 block nav-link">
-                        {item.title}
-                      </span>
-                    )
-                  }
-                {
-                  item.items.length > 0 && (
-                      <div className="mega-menu hidden absolute bg-black w-full top-full py-20 z-20">
-                        <div className="mega-menu-inner">
-                          <div className="sub-menu flex flex-wrap gap-5 justify-center">
-                            { <SubMegaMenu menu_items={item.items} />}
-                          </div>
+                    </Link>
+                  ) : (
+                    <span className="text-white font-semibold text-lg py-5 block nav-link">
+                      {item.title}
+                    </span>
+                  )}
+                  {item.items.length > 0 && (
+                    <div className="mega-menu hidden absolute bg-black w-full top-full py-20 z-20">
+                      <div className="mega-menu-inner">
+                        <div className="sub-menu flex flex-wrap gap-5 justify-center">
+                          {<SubMegaMenu menu_items={item.items} />}
                         </div>
                       </div>
-                  )
-                }
-              </div>
-              )
+                    </div>
+                  )}
+                </div>
+              );
             })}
           </nav>
           <></>
@@ -404,33 +421,35 @@ function DesktopHeader({isHome, menu, openCart, title}) {
 }
 
 function SubMegaMenu({menu_items}) {
-
   return (
     <>
       {(menu_items || []).map((item) => {
-          return (
-            <div key={item.id} className="sub-menu-item w-72 text-center">
+        return (
+          <div
+            key={item.id}
+            className="sub-menu-item w-full md:w-72 text-left md:text-center"
+          >
             <h2 className="sub-menu-title primary-color font-semibold text-lg block uppercase pb-2">
               {item.title}
             </h2>
             <ul className="sub-menu-items flex flex-col gap-1">
-                {(item?.items || []).map((sub_item) => {
-                  return (
-                    <li className="nav-item" key={sub_item.id}>
-                      <Link
-                        to={sub_item.to}
-                        target={sub_item.target}
-                        prefetch="intent"
-                        className="text-white font-semibold text-lg block"
-                      >
-                        {sub_item.title}
-                      </Link>
-                    </li>
-                  )
-                })}
+              {(item?.items || []).map((sub_item) => {
+                return (
+                  <li className="nav-item" key={sub_item.id}>
+                    <Link
+                      to={sub_item.to}
+                      target={sub_item.target}
+                      prefetch="intent"
+                      className="text-white font-semibold text-lg block"
+                    >
+                      {sub_item.title}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
-          );
+        );
       })}
     </>
   );
@@ -493,20 +512,40 @@ function Footer({menu}) {
       ? 4
       : menu?.items?.length + 1
     : [];
-
+  const footerMenuToggle = (event) => {
+    event.currentTarget.classList.toggle('active');
+  };
   return (
     <Section
       divider={isHome ? 'none' : 'top'}
       as="footer"
       role="contentinfo"
-      className={`bg-black site-footer px-0 py-10`}
+      className={`bg-black site-footer px-0 py-6 sm:py-8 md:py-10`}
     >
       <div className="container mx-auto">
-        <div className="footer-row flex flex-wrap -mx-4 gap-y-8">
-          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4">
-            <div className="col-inner">
-              <h4 className="title text-xl primary-color uppercase pb-5 md:pb-7 lg:pb-10">
+        <div className="footer-row flex flex-wrap -mx-4 gap-y-0 sm:gap-y-8">
+          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4 navbar-col">
+            <div className="col-inner" onClick={footerMenuToggle}>
+              <h4 className="title text-xl primary-color uppercase pb-0 md:pb-7 lg:pb-10 relative">
                 QUICK LINKS
+                <span className="toggle-btn absolute right-0 top-0 w-10 h-8  sm:hidden text-white flex items-center justify-center cursor-pointer">
+                  <svg
+                    className="icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={20}
+                    height={20}
+                    viewBox="0 0 32 32"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="m6 12l10 10l10-10"
+                    />
+                  </svg>
+                </span>
               </h4>
               <div className="nav-bar">
                 <ul className="flex flex-col gap-2">
@@ -532,7 +571,7 @@ function Footer({menu}) {
                   </li>
                 </ul>
               </div>
-              <div className="social-links pt-5 md:pt-6 lg:pt-14">
+              <div className="social-links pt-5 md:pt-6 lg:pt-14 hidden md:block">
                 <ul className="flex flex-wrap gap-1 md:gap-2 lg:gap-3">
                   <li>
                     <a href="#">
@@ -598,10 +637,28 @@ function Footer({menu}) {
               </div>
             </div>
           </div>
-          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4">
-            <div className="col-inner">
-              <h4 className="title text-xl primary-color uppercase pb-5 md:pb-7 lg:pb-10">
+          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4 navbar-col">
+            <div className="col-inner" onClick={footerMenuToggle}>
+              <h4 className="title text-xl primary-color uppercase pb-0 md:pb-7 lg:pb-10 relative">
                 ÜBER 93.
+                <span className="toggle-btn absolute right-0 top-0 w-10 h-8  sm:hidden text-white flex items-center justify-center cursor-pointer">
+                  <svg
+                    className="icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={20}
+                    height={20}
+                    viewBox="0 0 32 32"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="m6 12l10 10l10-10"
+                    />
+                  </svg>
+                </span>
               </h4>
               <div className="nav-bar">
                 <ul className="flex flex-col gap-2">
@@ -639,10 +696,28 @@ function Footer({menu}) {
               </div>
             </div>
           </div>
-          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4">
-            <div className="col-inner">
-              <h4 className="title text-xl primary-color uppercase pb-5 md:pb-7 lg:pb-10">
+          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4 navbar-col">
+            <div className="col-inner" onClick={footerMenuToggle}>
+              <h4 className="title text-xl primary-color uppercase pb-0 md:pb-7 lg:pb-10 relative">
                 SUPPORT
+                <span className="toggle-btn absolute right-0 top-0 w-10 h-8  sm:hidden text-white flex items-center justify-center cursor-pointer">
+                  <svg
+                    className="icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={20}
+                    height={20}
+                    viewBox="0 0 32 32"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="m6 12l10 10l10-10"
+                    />
+                  </svg>
+                </span>
               </h4>
               <div className="nav-bar">
                 <ul className="flex flex-col gap-2">
@@ -675,7 +750,7 @@ function Footer({menu}) {
               </div>
             </div>
           </div>
-          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4">
+          <div className="footer-col w-full sm:w-2/4 lg:w-1/4 px-4 order-first sm:order-none form-col">
             <div className="col-inner">
               <h4 className="title text-xl primary-color uppercase pb-5">
                 10% OFF + FREE SHIPPING ON YOUR FIRST ORDER
@@ -713,8 +788,74 @@ function Footer({menu}) {
               </form>
             </div>
           </div>
+          <div className="footer-col w-full block sm:hidden">
+            <div className="social-links pt-5 md:pt-6 lg:pt-14">
+              <ul className="flex flex-wrap gap-3 justify-center">
+                <li>
+                  <a href="#">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"
+                      />
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={1024}
+                      height={1024}
+                      viewBox="0 0 1024 1024"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64zm215.3 337.7c.3 4.7.3 9.6.3 14.4c0 146.8-111.8 315.9-316.1 315.9c-63 0-121.4-18.3-170.6-49.8c9 1 17.6 1.4 26.8 1.4c52 0 99.8-17.6 137.9-47.4c-48.8-1-89.8-33-103.8-77c17.1 2.5 32.5 2.5 50.1-2a111 111 0 0 1-88.9-109v-1.4c14.7 8.3 32 13.4 50.1 14.1a111.13 111.13 0 0 1-49.5-92.4c0-20.7 5.4-39.6 15.1-56a315.28 315.28 0 0 0 229 116.1C492 353.1 548.4 292 616.2 292c32 0 60.8 13.4 81.1 35c25.1-4.7 49.1-14.1 70.5-26.7c-8.3 25.7-25.7 47.4-48.8 61.1c22.4-2.4 44-8.6 64-17.3c-15.1 22.2-34 41.9-55.7 57.6z"
+                      />
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8A1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5a5 5 0 0 1-5 5a5 5 0 0 1-5-5a5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3a3 3 0 0 0 3 3a3 3 0 0 0 3-3a3 3 0 0 0-3-3Z"
+                      />
+                    </svg>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="#currentColor"
+                        d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0 1 15.54 3h-3.09v12.4a2.592 2.592 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64c0 3.33 2.76 5.7 5.69 5.7c3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"
+                      />
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <div className="copyright-wrap pt-8">
+        <div className="copyright-wrap pt-6 sm:pt-8">
           <p className="text-center text-white text-sm font-normal">
             © 2023 93. AG. Alle Rechte Vorbehalten
           </p>
