@@ -1,10 +1,16 @@
+:root {
+  --primary-color: #EFFF00;
+  --font-family-Kallisto: 'Kallisto';
+}
+
 body{
-  font-family: 'Kallisto';
-  font-weight: 500;
+  font-family: var(--font-family-Kallisto);
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 
 h1,h2,h3,h4,h5,h6{
-  font-family: 'Kallisto';
+  font-family: var(--font-family-Kallisto);
   font-weight: 900;
 }
 
@@ -25,12 +31,15 @@ h1,h2,h3,h4,h5,h6{
   top: 0;
   left: 21px;
   font-size: 8px;
-  background: #EFFF00;
+  background: var(--primary-color);
   color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   letter-spacing: 0;
+}
+.fsb_bar{
+  color: var(--primary-color);
 }
 /* End header css */

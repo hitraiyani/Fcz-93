@@ -10,6 +10,7 @@ import {
   useMatches,
 } from '@remix-run/react';
 import {ShopifySalesChannel, Seo} from '@shopify/hydrogen';
+import font_style from './styles/custom-font.css';
 import styles from './styles/app.css';
 import favicon from '../public/favicon.svg';
 import {Layout} from './components/Layout';
@@ -43,6 +44,7 @@ export const handle = {
 export const links = () => {
   return [
     {rel: 'stylesheet', href: tailwind},
+    {rel: 'stylesheet', href: font_style},
     {rel: 'stylesheet', href: styles},
     {rel: 'stylesheet', href: swiper},
     {rel: 'stylesheet', href: swiper_navigation},

@@ -32,7 +32,7 @@ export function Layout({children, layout}) {
         {layout?.top_announcement_bar?.announcement_enabled?.value ==
             'true' && (
             <div
-              className={'fsb_bar text-center py-2 align-middle justify-center sticky top-0 z-40  md:flex'}
+              className={'fsb_bar text-center pt-6 pb-2  align-middle text-sm  justify-center bg-black font-extralight'}
             >
               <div
                 className="px-10"
@@ -234,7 +234,7 @@ function DesktopHeader({isHome, menu, openCart, title}) {
       role="banner"
       className={`${isHome ? 'index-header' : ''} ${
         !isHome && y > 50 && ' shadow-lightHeader'
-      } site-header bg-black`}
+      } site-header bg-black sticky top-0 z-10`}
     >
       <div className="container mx-auto">
         <div className="header-top flex flex-wrap justify-between items-center py-5">
@@ -249,7 +249,7 @@ function DesktopHeader({isHome, menu, openCart, title}) {
                   <IconSearch className={'w-7 h-7'} />
                 </button>
                 <Input
-                  className={`${isHome ? '' : ''} block pl-8 placeholder:text-white font-normal text-base uppercase`}
+                  className={`${isHome ? '' : ''} block pl-8 placeholder:text-white text-base uppercase`}
                   type="search"
                   variant="minisearch"
                   placeholder="Search"
@@ -276,9 +276,9 @@ function DesktopHeader({isHome, menu, openCart, title}) {
               />
             </Link>
           </div>
-          <div className="header-icons flex gap-1 items-center w-1/3 justify-end">
+          <div className="header-icons flex gap-2 items-center w-1/3 justify-end">
             <div className="login-wrap">
-              <Link to="/account" className="relative text-white font-normal text-base uppercase">
+              <Link to="/account" className="relative text-white text-base uppercase">
                 Login
               </Link>
             </div>
@@ -332,14 +332,8 @@ function Badge({openCart, dark, count}) {
   const BadgeCounter = useMemo(
     () => (
       <>
-        <IconBag />
-        <div
-          className={`${
-            dark
-              ? 'text-primary bg-contrast dark:text-contrast dark:bg-primary'
-              : 'text-contrast bg-primary'
-          } absolute bottom-1 right-1 text-[0.625rem] font-medium subpixel-antialiased h-3 min-w-[0.75rem] flex items-center justify-center leading-none text-center rounded-full w-auto px-[0.125rem] pb-px`}
-        >
+         <svg className='icon w-7 h-7 fill-white' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 22.277 28.944"> <defs> <clipPath id="clip-path"> <rect id="Rectangle_7" data-name="Rectangle 7" width="22.277" height="28.944" fill="none" stroke="#fff" strokeWidth="0.5" /> </clipPath> </defs> <g id="Group_5" data-name="Group 5" clipPath="url(#clip-path)"> <path id="Path_5" data-name="Path 5" d="M20.3,26.926a.58.58,0,0,1-.471.209H2.443a.58.58,0,0,1-.469-.209.6.6,0,0,1-.161-.492L3.607,9.441a.636.636,0,0,1,.63-.571H5.852v1.351a.9.9,0,0,0,1.809,0V8.87h6.956v1.351h0a.9.9,0,1,0,1.809,0V8.87H18.04a.636.636,0,0,1,.63.571l1.8,17a.6.6,0,0,1-.161.492ZM7.661,5.286a3.478,3.478,0,1,1,6.956,0V7.061H7.661ZM20.47,9.249a2.441,2.441,0,0,0-2.43-2.187H16.426V5.287h0a5.287,5.287,0,0,0-10.573,0V7.062H4.237A2.442,2.442,0,0,0,1.808,9.249l-1.794,17a2.441,2.441,0,0,0,2.429,2.7H19.835a2.442,2.442,0,0,0,2.429-2.7l-1.795-17Z" transform="translate(0 0)" fill="#fff" stroke="#fff" strokeWidth="0.5" fillRule="evenodd" /> </g> </svg>
+        <div className={`${dark ? '' : ''} absolute top-0 right-0 counter`}>
           <span>{count || 0}</span>
         </div>
       </>
