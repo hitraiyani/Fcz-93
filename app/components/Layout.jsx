@@ -22,6 +22,7 @@ import {Disclosure} from '@headlessui/react';
 import {Suspense, useEffect, useMemo} from 'react';
 import {useIsHydrated} from '~/hooks/useIsHydrated';
 import {useCartFetchers} from '~/hooks/useCartFetchers';
+import {Image} from '@shopify/hydrogen';
 
 export function Layout({children, layout}) {
 
@@ -231,66 +232,77 @@ function DesktopHeader({isHome, menu, openCart, title}) {
   return (
     <header
       role="banner"
-      className={`${
-        isHome
-          ? 'bg-primary/80 dark:bg-contrast/60 text-contrast dark:text-primary shadow-darkHeader'
-          : 'bg-contrast/80 text-primary'
-      } ${
+      className={`${isHome ? 'index-header' : ''} ${
         !isHome && y > 50 && ' shadow-lightHeader'
-      } hidden h-nav lg:flex items-center sticky transition duration-300 backdrop-blur-lg z-40 top-0 justify-between w-full leading-none gap-8 px-12 py-8`}
+      } site-header bg-black`}
     >
-      <div className="flex gap-12">
-        <Link className="font-bold" to="/" prefetch="intent">
-          {title}
-        </Link>
-        <nav className="flex gap-8">
-          {/* Top level menu items */}
-          {(menu?.items || []).map((item) => (
-            <Link
-              key={item.id}
-              to={item.to}
-              target={item.target}
-              prefetch="intent"
-              className={({isActive}) =>
-                isActive ? 'pb-1 border-b -mb-px' : 'pb-1'
-              }
+      <div className="container mx-auto">
+        <div className="header-top flex flex-wrap justify-between items-center py-5">
+          <div className="header-search-bar w-1/3">
+            <Form
+              method="get"
+              action={params.lang ? `/${params.lang}/search` : '/search'}
+              className="flex items-center gap-2"
             >
-              {item.title}
+              <div className="relative">
+                <button type="submit" className="text-white absolute inset-y-0 left-0 flex items-center">
+                  <IconSearch className={'w-7 h-7'} />
+                </button>
+                <Input
+                  className={`${isHome ? '' : ''} block pl-8 placeholder:text-white font-normal text-base uppercase`}
+                  type="search"
+                  variant="minisearch"
+                  placeholder="Search"
+                  name="q"
+                />
+              </div>
+            </Form>
+          </div>
+          <div className="logo-wrap w-1/3">
+            <Link className="" to="/" prefetch="intent">
+              <Image
+                data={{
+                  url: 'https://cdn.shopify.com/s/files/1/0739/7172/8705/files/logo.svg?v=1680004853',
+                  width: 100,
+                  height: 44,
+                  altText: '93',
+                }}
+                className="logo-img mx-auto"
+                loaderOptions={{
+                  scale: 2,
+                  crop: 'center',
+                }}
+                alt="93"
+              />
             </Link>
-          ))}
-        </nav>
-      </div>
-      <div className="flex items-center gap-1">
-        <Form
-          method="get"
-          action={params.lang ? `/${params.lang}/search` : '/search'}
-          className="flex items-center gap-2"
-        >
-          <Input
-            className={
-              isHome
-                ? 'focus:border-contrast/20 dark:focus:border-primary/20'
-                : 'focus:border-primary/20'
-            }
-            type="search"
-            variant="minisearch"
-            placeholder="Search"
-            name="q"
-          />
-          <button
-            type="submit"
-            className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
-          >
-            <IconSearch />
-          </button>
-        </Form>
-        <Link
-          to="/account"
-          className="relative flex items-center justify-center w-8 h-8 focus:ring-primary/5"
-        >
-          <IconAccount />
-        </Link>
-        <CartCount isHome={isHome} openCart={openCart} />
+          </div>
+          <div className="header-icons flex gap-1 items-center w-1/3 justify-end">
+            <div className="login-wrap">
+              <Link to="/account" className="relative text-white font-normal text-base uppercase">
+                Login
+              </Link>
+            </div>
+            <div className="cart-wrap relative text-white">
+              <CartCount isHome={isHome} openCart={openCart} />
+            </div>
+          </div>
+        </div>
+        <div className="main-navbar py-5">
+          <nav className="flex flex-wrap justify-between items-center">
+            {/* Top level menu items */}
+            {(menu?.items || []).map((item) => (
+              <Link
+                key={item.id}
+                to={item.to}
+                target={item.target}
+                prefetch="intent"
+                className={`$({ isActive }) => (isActive ? 'active' : 'inactive') text-white  font-medium, `}
+              >
+                {item.title}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </div>
     </header>
   );

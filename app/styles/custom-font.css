@@ -1,13 +1,130 @@
 @font-face {
-  font-family: 'IBMPlexSerif';
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-Thin.eot');
+  src: url('./fonts/Kallisto-Thin.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-Thin.woff2') format('woff2'),
+      url('./fonts/Kallisto-Thin.woff') format('woff'),
+      url('./fonts/Kallisto-Thin.ttf') format('truetype'),
+      url('./fonts/Kallisto-Thin.svg#Kallisto-Thin') format('svg');
+  font-weight: 100;
+  font-style: normal;
   font-display: swap;
-  font-weight: 400;
-  src: url('./fonts/IBMPlexSerif-Text.woff2') format('woff2');
 }
+
 @font-face {
-  font-family: 'IBMPlexSerif';
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-Bold.eot');
+  src: url('./fonts/Kallisto-Bold.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-Bold.woff2') format('woff2'),
+      url('./fonts/Kallisto-Bold.woff') format('woff'),
+      url('./fonts/Kallisto-Bold.ttf') format('truetype'),
+      url('./fonts/Kallisto-Bold.svg#Kallisto-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
   font-display: swap;
-  font-weight: 400;
-  font-style: italic;
-  src: url('./fonts/IBMPlexSerif-TextItalic.woff2') format('woff2');
 }
+
+@font-face {
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-BoldItalic.eot');
+  src: url('./fonts/Kallisto-BoldItalic.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-BoldItalic.woff2') format('woff2'),
+      url('./fonts/Kallisto-BoldItalic.woff') format('woff'),
+      url('./fonts/Kallisto-BoldItalic.ttf') format('truetype'),
+      url('./fonts/Kallisto-BoldItalic.svg#Kallisto-BoldItalic') format('svg');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-HeavyItalic.eot');
+  src: url('./fonts/Kallisto-HeavyItalic.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-HeavyItalic.woff2') format('woff2'),
+      url('./fonts/Kallisto-HeavyItalic.woff') format('woff'),
+      url('./fonts/Kallisto-HeavyItalic.ttf') format('truetype'),
+      url('./fonts/Kallisto-HeavyItalic.svg#Kallisto-HeavyItalic') format('svg');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-Heavy.eot');
+  src: url('./fonts/Kallisto-Heavy.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-Heavy.woff2') format('woff2'),
+      url('./fonts/Kallisto-Heavy.woff') format('woff'),
+      url('./fonts/Kallisto-Heavy.ttf') format('truetype'),
+      url('./fonts/Kallisto-Heavy.svg#Kallisto-Heavy') format('svg');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-Medium.eot');
+  src: url('./fonts/Kallisto-Medium.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-Medium.woff2') format('woff2'),
+      url('./fonts/Kallisto-Medium.woff') format('woff'),
+      url('./fonts/Kallisto-Medium.ttf') format('truetype'),
+      url('./fonts/Kallisto-Medium.svg#Kallisto-Medium') format('svg');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-Light.eot');
+  src: url('./fonts/Kallisto-Light.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-Light.woff2') format('woff2'),
+      url('./fonts/Kallisto-Light.woff') format('woff'),
+      url('./fonts/Kallisto-Light.ttf') format('truetype'),
+      url('./fonts/Kallisto-Light.svg#Kallisto-Light') format('svg');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-MediumItalic.eot');
+  src: url('./fonts/Kallisto-MediumItalic.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-MediumItalic.woff2') format('woff2'),
+      url('./fonts/Kallisto-MediumItalic.woff') format('woff'),
+      url('./fonts/Kallisto-MediumItalic.ttf') format('truetype'),
+      url('./fonts/Kallisto-MediumItalic.svg#Kallisto-MediumItalic') format('svg');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-LightItalic.eot');
+  src: url('./fonts/Kallisto-LightItalic.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-LightItalic.woff2') format('woff2'),
+      url('./fonts/Kallisto-LightItalic.woff') format('woff'),
+      url('./fonts/Kallisto-LightItalic.ttf') format('truetype'),
+      url('./fonts/Kallisto-LightItalic.svg#Kallisto-LightItalic') format('svg');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kallisto';
+  src: url('./fonts/Kallisto-ThinItalic.eot');
+  src: url('./fonts/Kallisto-ThinItalic.eot?#iefix') format('embedded-opentype'),
+      url('./fonts/Kallisto-ThinItalic.woff2') format('woff2'),
+      url('./fonts/Kallisto-ThinItalic.woff') format('woff'),
+      url('./fonts/Kallisto-ThinItalic.ttf') format('truetype'),
+      url('./fonts/Kallisto-ThinItalic.svg#Kallisto-ThinItalic') format('svg');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
