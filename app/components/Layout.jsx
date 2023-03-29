@@ -299,7 +299,6 @@ function DesktopHeader({isHome, menu, openCart, title}) {
           <nav className="flex flex-wrap justify-between items-center -mb-1">
             {/* Top level menu items */}
             {(menu?.items || []).map((item) => {
-              console.log("item", item);
               return (
                 <div className="nav-item" key={item.id}>
                   {

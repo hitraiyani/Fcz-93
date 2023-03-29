@@ -188,7 +188,7 @@ export const FEATURED_SALE_COLLECTIONS_QUERY = `#graphql
           id
           src
         }
-        products(first: 4) {
+        products(first: 3, reverse : true) {
           nodes {
             id
             handle
@@ -347,7 +347,7 @@ export const HOMEPAGE_FEATURED_PRODUCTS_QUERY = `#graphql
   ${PRODUCT_CARD_FRAGMENT}
   query homepageFeaturedProducts($country: CountryCode, $language: LanguageCode)
   @inContext(country: $country, language: $language) {
-    products(first: 5) {
+    products(first: 3, reverse : true) {
       nodes {
         ...ProductCard
       }
