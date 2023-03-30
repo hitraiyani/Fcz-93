@@ -149,7 +149,7 @@ export function MenuDrawer({isOpen, onClose, menu}) {
 function MenuMobileNav({menu, onClose, isHome}) {
   const params = useParams();
   const megaMenuMobileClick = (event) => {
-    event.currentTarget.classList.toggle('active');
+    event.currentTarget.parentNode.classList.toggle('active');
   };
   return (
     <>
@@ -216,7 +216,6 @@ function MenuMobileNav({menu, onClose, isHome}) {
             <div
               className="nav-item relative"
               key={item.id}
-              onClick={megaMenuMobileClick}
             >
               {item.to != '/' ? (
                 <>
@@ -234,7 +233,7 @@ function MenuMobileNav({menu, onClose, isHome}) {
                   <span className="text-white font-semibold text-lg py-3 block nav-link cursor-pointer">
                     {item.title}
                   </span>
-                  <span className="toggle-btn absolute right-0 top-0 w-10 h-14 text-white flex items-center justify-center cursor-pointer">
+                  <span  onClick={megaMenuMobileClick} className="toggle-btn absolute right-0 top-0 w-10 h-14 text-white flex items-center justify-center cursor-pointer">
                     <svg
                       className="icon"
                       xmlns="http://www.w3.org/2000/svg"
@@ -430,6 +429,11 @@ function DesktopHeader({isHome, menu, openCart, title}) {
 }
 
 function SubMegaMenu({menu_items}) {
+  
+  const megaSubMenuMobileClick = (event) => {
+    event.currentTarget.parentNode.classList.toggle('active');
+  };
+
   return (
     <>
       {(menu_items || []).map((item) => {
@@ -441,7 +445,7 @@ function SubMegaMenu({menu_items}) {
             <h2 className="sub-menu-title primary-color font-semibold text-lg block uppercase pb-2">
               {item.title}
             </h2>
-            <span className="toggle-btn absolute right-0 top-0 w-10 h-7 text-white flex items-center justify-center cursor-pointer md:hidden">
+            <span onClick={megaSubMenuMobileClick} className="toggle-btn absolute right-0 top-0 w-10 h-7 text-white flex items-center justify-center cursor-pointer md:hidden">
               <svg
                 className="icon"
                 xmlns="http://www.w3.org/2000/svg"
