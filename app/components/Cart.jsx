@@ -121,7 +121,7 @@ function CartLines({layout = 'drawer', lines: cartLines}) {
     y > 0 ? 'border-t' : '',
     layout === 'page'
       ? 'flex-grow md:translate-y-4'
-      : 'px-6 pb-6 sm-max:pt-2 overflow-auto transition md:px-12',
+      : 'pb-6 sm-max:pt-2 overflow-auto transition',
   ]);
 
   return (
@@ -156,7 +156,7 @@ function CartCheckoutActions({checkoutUrl}) {
 
 function CartSummary({cost, layout, children = null}) {
   const summary = {
-    drawer: 'grid gap-4 p-6 border-t md:px-12',
+    drawer: 'grid gap-4 py-6 border-t',
     page: 'sticky top-nav grid gap-6 p-4 md:px-6 md:translate-y-4 bg-primary/5 rounded w-full',
   };
 
@@ -336,7 +336,7 @@ export function CartEmpty({hidden = false, layout = 'drawer', onClose}) {
 
   const container = {
     drawer: clsx([
-      'content-start gap-4 px-6 pb-8 transition overflow-y-scroll md:gap-12 md:px-12 h-screen-no-nav md:pb-12',
+      'content-start gap-4 transition md:gap-12 h-screen-no-nav',
       y > 0 ? 'border-t' : '',
     ]),
     page: clsx([

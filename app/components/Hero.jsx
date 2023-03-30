@@ -41,7 +41,7 @@ export function Hero({
         {title?.value && (
           <Link
             to={`${title_redirect_link.value}`}
-            className="btn bg-black text-white font-semibold text-lg max-w-fit mx-auto py-2 px-5 hover:opacity-75 transition-all"
+            className="btn bg-black text-white font-semibold text-lg max-w-fit mx-auto py-1 md:py-2 px-5 hover:opacity-75 transition-all"
           >
             {title.value}
           </Link>
