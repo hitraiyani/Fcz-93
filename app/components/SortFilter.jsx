@@ -14,36 +14,18 @@ import {Disclosure} from '@headlessui/react';
 export function SortFilter({
   filters,
   appliedFilters = [],
-  children,
   collections = [],
 }) {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <>
       <div className="flex items-center justify-between w-full">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={
-            'relative flex items-center justify-center w-8 h-8 focus:ring-primary/5'
-          }
-        >
-        </button>
-        <SortMenu />
-      </div>
         <FiltersDrawer
           collections={collections}
           filters={filters}
           appliedFilters={appliedFilters}
         />
-      <div className="flex flex-col flex-wrap md:flex-row">
-        <div
-          className={`transition-all duration-200 ${
-            isOpen
-              ? 'opacity-100 min-w-full md:min-w-[240px] md:w-[240px] md:pr-8 max-h-full'
-              : 'opacity-0 md:min-w-[0px] md:w-[0px] pr-0 max-h-0 md:max-h-full'
-          }`}
-        >
-        </div>
+        <SortMenu />
       </div>
     </>
   );
@@ -75,31 +57,18 @@ export function FiltersDrawer({
       default:
         const to = getFilterLink(filter, option.input, params, location);
         return (
-          <Link
-            className="focus:underline hover:underline"
-            prefetch="intent"
-            to={to}
-          >
-            {option.label}
-          </Link>
+          <>
+            <Link
+              className="focus:underline hover:underline"
+              prefetch="intent"
+              to={to}
+            >
+               {filter.label == 'Color' ? (<><div className='rounded-full h-5 w-6' style={{ backgroundColor: option.label }}></div></>) : option.label}
+            </Link>
+          </>
         );
     }
   };
-
-  const collectionsMarkup = collections.map((collection) => {
-    return (
-      <li key={collection.handle} className="pb-4">
-        <Link
-          to={`/collections/${collection.handle}`}
-          className="focus:underline hover:underline"
-          key={collection.handle}
-          prefetch="intent"
-        >
-          {collection.title}
-        </Link>
-      </li>
-    );
-  });
 
   return (
     <>
@@ -217,16 +186,16 @@ function PriceRangeFilter({max, min}) {
 
   useDebounce(
     () => {
-      if (
-        (minPrice === '' || minPrice === String(min)) &&
-        (maxPrice === '' || maxPrice === String(max))
-      )
-        return;
+     
+      // if (
+      //   (minPrice === '' || minPrice === String(min)) &&
+      //   (maxPrice === '' || maxPrice === String(max))
+      // )
+      //   return;
 
       const price = {};
       if (minPrice !== '') price.min = minPrice;
       if (maxPrice !== '') price.max = maxPrice;
-
       const newParams = filterInputToParams('PRICE_RANGE', {price}, params);
       navigate(`${location.pathname}?${newParams.toString()}`);
     },
@@ -276,8 +245,17 @@ function filterInputToParams(type, rawInput, params) {
   const input = typeof rawInput === 'string' ? JSON.parse(rawInput) : rawInput;
   switch (type) {
     case 'PRICE_RANGE':
-      if (input.price.min) params.set('minPrice', input.price.min);
-      if (input.price.max) params.set('maxPrice', input.price.max);
+      if (input.price.min) {
+        params.set('minPrice', input.price.min);
+      } else {
+        params.delete('minPrice');
+      }
+
+      if (input.price.max) {
+        params.set('maxPrice', input.price.max);
+      } else {
+        params.delete('maxPrice');
+      }
       break;
     case 'LIST':
       Object.entries(input).forEach(([key, value]) => {

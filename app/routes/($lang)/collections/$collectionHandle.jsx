@@ -126,15 +126,6 @@ export default function Collection() {
         <Heading as="h1" className='text-2xl mb-2 text-black font-semibold capitalize'>
           {collection.title}
         </Heading>
-        {collection?.description && (
-          <div className="flex items-baseline justify-between w-full mb-11">
-          <div>
-            <Text format as="p" className="block text-lg uppercase text-black">
-            {collection.description}
-            </Text>
-          </div>
-          </div>
-        )}
         <SortFilter
             filters={collection.products.filters}
             appliedFilters={appliedFilters}

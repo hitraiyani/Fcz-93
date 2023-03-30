@@ -370,18 +370,38 @@ function ProductOptions({options, searchParamsWithDefaults}) {
                       searchParamsWithDefaults.get(option.name) === value;
                     const id = `option-${option.name}-${value}`;
 
+
                     return (
-                      <Text key={id}>
-                        <ProductOptionLink
-                          optionName={option.name}
-                          optionValue={value}
-                          searchParams={searchParamsWithDefaults}
-                          className={clsx(
-                            'leading-none py-1 border-b-[1.5px] cursor-pointer transition-all duration-200',
-                            checked ? 'border-primary/50' : 'border-primary/0',
-                          )}
-                        />
-                      </Text>
+                      <>
+                        {
+                          option.name == 'Color' ? (
+                            <>
+                              <ProductOptionLink
+                                optionName={option.name}
+                                optionValue={value}
+                                searchParams={searchParamsWithDefaults}
+                                className={clsx(
+                                  'leading-none py-1 border-b-[1.5px] cursor-pointer transition-all duration-200',
+                                  checked ? 'border-primary/ 50' : 'border-primary/0',
+                                )}
+                              >
+                                <div className='rounded-full h-5 w-6' style={{ backgroundColor: value }}></div>
+                                <span className='sr-only'>{value}</span>
+                              </ProductOptionLink>
+                            </>
+                          ) : ( <Text key={id}>
+                            <ProductOptionLink
+                              optionName={option.name}
+                              optionValue={value}
+                              searchParams={searchParamsWithDefaults}
+                              className={clsx(
+                                'leading-none py-1 border-b-[1.5px] cursor-pointer transition-all duration-200',
+                                checked ? 'border-primary/ 50' : 'border-primary/0',
+                              )}
+                            />
+                          </Text>)
+                        }
+                      </>
                     );
                   })}
                 </>
