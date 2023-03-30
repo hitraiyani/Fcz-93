@@ -152,8 +152,23 @@ a:hover {
 .mobile-menu-Drawer .mega-menu .sub-menu-item {
   max-width: 100%;
 }
+.mobile-menu-Drawer .nav-item.active .toggle-btn {
+  color: var(--primary-color);
+}
 .mobile-menu-Drawer .nav-item.active .toggle-btn svg {
   transform: rotate(180deg);
+}
+.mobile-menu-Drawer .mega-menu .sub-menu .sub-menu-item .sub-menu-items  {
+  display: none;
+}
+.mobile-menu-Drawer .mega-menu .sub-menu .toggle-btn svg{
+  transform: rotate(-90deg);
+}
+.mobile-menu-Drawer .mega-menu .sub-menu .sub-menu-item.active  .toggle-btn svg{
+  transform: rotate(0deg);
+}
+.mobile-menu-Drawer .mega-menu .sub-menu .sub-menu-item.active .sub-menu-items  {
+  display: block;
 }
 /* End mobile header css */
 

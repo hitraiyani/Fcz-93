@@ -114,7 +114,13 @@ function CartDrawer({isOpen, onClose}) {
   const [root] = useMatches();
 
   return (
-    <Drawer open={isOpen} onClose={onClose} heading="Cart" openFrom="right" className="bg-white cart-Drawer p-10 overflow-auto">
+    <Drawer
+      open={isOpen}
+      onClose={onClose}
+      heading="Cart"
+      openFrom="right"
+      className="bg-white cart-Drawer p-10 overflow-auto"
+    >
       <div className="grid">
         <Suspense fallback={<CartLoading />}>
           <Await resolve={root.data?.cart}>
@@ -251,7 +257,7 @@ function MenuMobileNav({menu, onClose, isHome}) {
               {item.items.length > 0 && (
                 <div className="mega-menu hidden absolute bg-black w-full top-full py-20 z-20">
                   <div className="mega-menu-inner">
-                    <div className="sub-menu flex flex-wrap gap-5 justify-center">
+                    <div className="sub-menu flex flex-wrap gap-0 justify-center">
                       {<SubMegaMenu menu_items={item.items} />}
                     </div>
                   </div>
@@ -423,18 +429,36 @@ function DesktopHeader({isHome, menu, openCart, title}) {
   );
 }
 
-function SubMegaMenu({menu_items,onClose}) {
+function SubMegaMenu({menu_items}) {
   return (
     <>
       {(menu_items || []).map((item) => {
         return (
           <div
             key={item.id}
-            className="sub-menu-item w-full md:w-1/5 text-left md:text-center"
+            className="sub-menu-item w-full md:w-1/5 text-left md:text-center relative"
           >
             <h2 className="sub-menu-title primary-color font-semibold text-lg block uppercase pb-2">
               {item.title}
             </h2>
+            <span className="toggle-btn absolute right-0 top-0 w-10 h-7 text-white flex items-center justify-center cursor-pointer md:hidden">
+              <svg
+                className="icon"
+                xmlns="http://www.w3.org/2000/svg"
+                width={20}
+                height={20}
+                viewBox="0 0 32 32"
+              >
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="m6 12l10 10l10-10"
+                />
+              </svg>
+            </span>
             <ul className="sub-menu-items flex flex-col gap-1">
               {(item?.items || []).map((sub_item) => {
                 return (
