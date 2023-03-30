@@ -53,14 +53,14 @@ export function Heading({
   className = '',
   format,
   size = 'heading',
-  width = 'default',
+  width = '',
   ...props
 }) {
   const sizes = {
-    display: 'font-bold text-display',
-    heading: 'font-bold text-heading',
-    lead: 'font-bold text-lead',
-    copy: 'font-medium text-copy',
+    display: 'font-black',
+    heading: 'font-black text-heading',
+    lead: 'font-black text-lead',
+    copy: 'font-black text-copy',
   };
 
   const widths = {

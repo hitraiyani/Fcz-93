@@ -182,6 +182,7 @@ function MenuMobileNav({menu, onClose, isHome}) {
         <button
           type="submit"
           className="text-white absolute inset-y-0 right-2 flex items-center w-7 h-full"
+          onClick={onClose}
         >
           <IconSearch className="w-full h-full" />
         </button>
@@ -190,12 +191,14 @@ function MenuMobileNav({menu, onClose, isHome}) {
         <Link
           to="/account"
           className="relative flex items-center justify-center text-lg font-normal uppercase text-white"
+          onClick={onClose}
         >
           Login
         </Link>
         <Link
           to="/cart"
           className="relative flex items-center justify-center w-8 h-8"
+          onClick={onClose}
         >
           <NewcartIcon />
         </Link>
@@ -420,7 +423,7 @@ function DesktopHeader({isHome, menu, openCart, title}) {
   );
 }
 
-function SubMegaMenu({menu_items}) {
+function SubMegaMenu({menu_items,onClose}) {
   return (
     <>
       {(menu_items || []).map((item) => {

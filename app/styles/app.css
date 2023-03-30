@@ -6,6 +6,7 @@
 body {
   font-family: var(--font-family-Kallisto);
   font-weight: 300;
+  overflow-x: hidden;
 }
 
 h1,
@@ -199,7 +200,7 @@ a:hover {
   .site-footer .footer-col.form-col .col-inner {
     padding-top: 0;
   }
-  .site-footer .footer-col .col-inner .nav-bar{
+  .site-footer .footer-col .col-inner .nav-bar {
     padding: 20px 0px 10px;
   }
   .site-footer .social-links a svg,
@@ -215,3 +216,39 @@ a:hover {
   border-bottom: 3px solid var(--primary-color);
 }
 /* End hero banner section */
+
+/* featureHomeProduct section*/
+.sec-title {
+  font-size: 26px;
+}
+.featureHomeProduct-section .swiper-button-next,
+.featureHomeProduct-section .swiper-button-prev {
+  display: none;
+}
+@media (max-width:767px) {
+  .featureHomeProduct-section .swiper {
+    width: calc(100% + 15px);
+  }
+  .sec-title {
+    font-size: 22px;
+  }
+}
+/* End featureHomeProduct section*/
+
+/* card css */
+
+.card-image {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: clip;
+}
+
+.card-image img {
+  aspect-ratio: inherit;
+  width: 100%;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+/* End card css */
