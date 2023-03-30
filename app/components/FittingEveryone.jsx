@@ -18,8 +18,11 @@ export function FittingEveryone({data}) {
                 />
               </div>
               <div className="w-full md:w-2/4 pl-0 md:pl-5">
-                <h1 className="text-4xl lg:text-5xl text-black pb-2 md:pb-9 font-black uppercase">
-                  {data?.title?.value}
+                <h1 className="text-4xl lg:text-5xl text-black pb-2 md:pb-9 font-black uppercase"
+                  dangerouslySetInnerHTML={{
+                    __html: toHTML(data?.main_title?.value),
+                  }}
+                >
                 </h1>
                 <div
                   className="text-sm md:text-xl text-black font-medium pb-5 md:pb-9"
@@ -31,20 +34,26 @@ export function FittingEveryone({data}) {
                   <Link
                     to={`${data?.button_1_redirect?.value}`}
                     className="btn bg-black text-white font-semibold text-lg w-full py-1 md:py-2 px-5 hover:opacity-75 transition-all text-center"
+                    dangerouslySetInnerHTML={{
+                      __html: toHTML(data?.button_1_title?.value),
+                    }}
                   >
-                    {data?.button_1_label?.value}
                   </Link>
                   <Link
                     to={`${data?.button_2_redirect?.value}`}
                     className="btn bg-black text-white font-semibold text-lg w-full py-1 md:py-2 px-5 hover:opacity-75 transition-all text-center"
+                    dangerouslySetInnerHTML={{
+                      __html: toHTML(data?.button_2_title?.value),
+                    }}
                   >
-                    {data?.button_2_label?.value}
                   </Link>
                   <Link
                     to={`${data?.button_3_redirect?.value}`}
                     className="btn bg-black text-white font-semibold text-lg w-full py-1 md:py-2 px-5 hover:opacity-75 transition-all text-center"
+                    dangerouslySetInnerHTML={{
+                      __html: toHTML(data?.button_3_title?.value),
+                    }}
                   >
-                    {data?.button_3_label?.value}
                   </Link>
                 </div>
               </div>

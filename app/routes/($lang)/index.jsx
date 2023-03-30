@@ -254,7 +254,7 @@ ${MEDIA_FRAGMENT}
       handle
       id
       type
-      title : field(key: "title") {
+      main_title : field(key: "main_title") {
         value
       }
       description : field(key: "description") {
@@ -265,19 +265,19 @@ ${MEDIA_FRAGMENT}
           ...Media
         }
       }
-      button_1_label : field(key: "button_1_label") {
+      button_1_title : field(key: "button_1_title") {
         value
       }
       button_1_redirect : field(key: "button_1_redirect") {
         value
       }
-      button_2_label : field(key: "button_2_label") {
+      button_2_title : field(key: "button_2_title") {
         value
       }
       button_2_redirect : field(key: "button_2_redirect") {
         value
       }
-      button_3_label : field(key: "button_3_label") {
+      button_3_title : field(key: "button_3_title") {
         value
       }
       button_3_redirect : field(key: "button_3_redirect") {

@@ -324,5 +324,5 @@ export function toHTML(content) {
 				break;
 		}
 	});
-	return html;
+	return html.replace(/\n/g, "<br />");
 }
