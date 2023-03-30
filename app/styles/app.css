@@ -52,6 +52,9 @@ h6 {
 .primary-color {
   color: var(--primary-color);
 }
+.primary-bg-color {
+  background-color: var(--primary-color);
+}
 a:hover {
   color: var(--primary-color);
 }
@@ -283,3 +286,8 @@ a:hover {
   }
 }
 /*End styleGuide-section */
+
+
+/* topSaleHomeProduct-section */
+
+/* End topSaleHomeProduct-section */  

@@ -399,7 +399,7 @@ function DesktopHeader({isHome, menu, openCart, title}) {
                       {item.title}
                     </Link>
                   ) : (
-                    <span className="text-white font-semibold text-lg py-5 block nav-link">
+                    <span className="text-white font-semibold text-lg py-5 block nav-link cursor-pointer">
                       {item.title}
                     </span>
                   )}
@@ -430,7 +430,7 @@ function SubMegaMenu({menu_items,onClose}) {
         return (
           <div
             key={item.id}
-            className="sub-menu-item w-full md:w-72 text-left md:text-center"
+            className="sub-menu-item w-full md:w-1/5 text-left md:text-center"
           >
             <h2 className="sub-menu-title primary-color font-semibold text-lg block uppercase pb-2">
               {item.title}

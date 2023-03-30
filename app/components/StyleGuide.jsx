@@ -5,7 +5,7 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 
 export function StyleGuide({title = 'STYLE GUIDE', ...props}) {
   return (
-    <div className="styleGuide-section bg-white py-6 sm:py-7 md:py-10 lg:py-14 xl:py-20 uppercase">
+    <div className="styleGuide-section bg-white py-6 sm:py-7 md:py-10 lg:py-14 xl:py-20">
       <div className="container mx-auto">
         <Heading
           heading={title}
