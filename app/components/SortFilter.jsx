@@ -14,6 +14,7 @@ import {Disclosure} from '@headlessui/react';
 export function SortFilter({
   filters,
   appliedFilters = [],
+  appliedCustomFilters = [],
   collections = [],
 }) {
   const [isOpen, setIsOpen] = useState(true);
@@ -24,6 +25,7 @@ export function SortFilter({
           collections={collections}
           filters={filters}
           appliedFilters={appliedFilters}
+          appliedCustomFilters={appliedCustomFilters}
         />
         <SortMenu />
       </div>
@@ -34,8 +36,10 @@ export function SortFilter({
 export function FiltersDrawer({
   filters = [],
   appliedFilters = [],
+  appliedCustomFilters = [],
   collections = [],
 }) {
+
   const [params] = useSearchParams();
   const location = useLocation();
 
@@ -52,14 +56,14 @@ export function FiltersDrawer({
             ? Number(params.get('maxPrice'))
             : undefined;
 
-        return <PriceRangeFilter min={min} max={max} />;
+        return <PriceRangeFilter min={min} max={max} appliedCustomFilters={appliedCustomFilters}/>;
 
       default:
-        const to = getFilterLink(filter, option.input, params, location);
+        const to = getFilterLink(filter, option.input, params, location, appliedCustomFilters);
         return (
           <>
             <Link
-              className="focus:underline hover:underline"
+              className={`focus:underline hover:underline ${appliedCustomFilters.includes(option.label) ? 'bg-green-600' : ''}`}
               prefetch="intent"
               to={to}
             >
@@ -165,15 +169,15 @@ function getSortLink(sort, params, location) {
   return `${location.pathname}?${params.toString()}`;
 }
 
-function getFilterLink(filter, rawInput, params, location) {
+function getFilterLink(filter, rawInput, params, location, appliedCustomFilters) {
   const paramsClone = new URLSearchParams(params);
-  const newParams = filterInputToParams(filter.type, rawInput, paramsClone);
+  const newParams = filterInputToParams(filter.type, rawInput, paramsClone, appliedCustomFilters);
   return `${location.pathname}?${newParams.toString()}`;
 }
 
 const PRICE_RANGE_FILTER_DEBOUNCE = 500;
 
-function PriceRangeFilter({max, min}) {
+function PriceRangeFilter({max, min, appliedCustomFilters}) {
   const location = useLocation();
   const params = useMemo(
     () => new URLSearchParams(location.search),
@@ -196,7 +200,7 @@ function PriceRangeFilter({max, min}) {
       const price = {};
       if (minPrice !== '') price.min = minPrice;
       if (maxPrice !== '') price.max = maxPrice;
-      const newParams = filterInputToParams('PRICE_RANGE', {price}, params);
+      const newParams = filterInputToParams('PRICE_RANGE', {price}, params, appliedCustomFilters);
       navigate(`${location.pathname}?${newParams.toString()}`);
     },
     PRICE_RANGE_FILTER_DEBOUNCE,
@@ -241,8 +245,10 @@ function PriceRangeFilter({max, min}) {
   );
 }
 
-function filterInputToParams(type, rawInput, params) {
+function filterInputToParams(type, rawInput, params, appliedCustomFilters) {
+  
   const input = typeof rawInput === 'string' ? JSON.parse(rawInput) : rawInput;
+  const appliedCustomFiltersArr = JSON.parse(JSON.stringify(appliedCustomFilters));
   switch (type) {
     case 'PRICE_RANGE':
       if (input.price.min) {
@@ -270,6 +276,17 @@ function filterInputToParams(type, rawInput, params) {
           if (!allVariants.includes(newVariant)) {
             params.append('variantOption', newVariant);
           }
+          const allFilteredVariants = params.getAll(`variantOption`);
+          if (appliedCustomFiltersArr.includes(val)) {
+            const index = allFilteredVariants.indexOf(newVariant);
+            if (index > -1) {
+              allFilteredVariants.splice(index,1)
+            }
+          }
+          params.delete('variantOption');
+          allFilteredVariants.forEach((value) => {
+            params.append('variantOption', value);
+          });
         }
       });
       break;

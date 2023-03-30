@@ -38,6 +38,7 @@ export async function loader({params, request, context}) {
   const cursor = searchParams.get('cursor');
   const filters = [];
   const appliedFilters = [];
+  const appliedCustomFilters = [];
 
   for (const [key, value] of searchParams.entries()) {
     if (available === key) {
@@ -56,6 +57,7 @@ export async function loader({params, request, context}) {
       const [name, val] = value.split(':');
       filters.push({variantOption: {name, value: val}});
       appliedFilters.push({label: val, urlParam: {key, value}});
+      appliedCustomFilters.push(val);
     }
   }
 
@@ -108,6 +110,7 @@ export async function loader({params, request, context}) {
   return json({
     collection,
     appliedFilters,
+    appliedCustomFilters,
     collections: collectionNodes,
     analytics: {
       pageType: AnalyticsPageType.collection,
@@ -118,7 +121,7 @@ export async function loader({params, request, context}) {
 }
 
 export default function Collection() {
-  const {collection, collections, appliedFilters} = useLoaderData();
+  const {collection, collections, appliedFilters, appliedCustomFilters} = useLoaderData();
 
   return (
     <>
@@ -129,6 +132,7 @@ export default function Collection() {
         <SortFilter
             filters={collection.products.filters}
             appliedFilters={appliedFilters}
+            appliedCustomFilters={appliedCustomFilters}
             collections={collections}
           >
           </SortFilter>

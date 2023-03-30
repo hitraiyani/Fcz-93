@@ -45,7 +45,7 @@ export function ProductGrid({url, collection, ...props}) {
     return (
       <>
         <p>No products found on this collection</p>
-        <Link to="/products">
+        <Link to="/collections/all">
           <p className="underline">Browse catalog</p>
         </Link>
       </>

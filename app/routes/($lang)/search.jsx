@@ -22,6 +22,7 @@ export default function () {
 
   return (
     <>
+      <div className="product-collections-sec pb-10 container pt-10 block mx-auto">
       <PageHeader>
         <Heading as="h1" size="copy">
           Search
@@ -69,14 +70,18 @@ export default function () {
           </Suspense>
         </>
       ) : (
-        <Section>
-          <ProductGrid
-            key="search"
-            url={`/search?q=${searchTerm}`}
-            collection={{products}}
-          />
-        </Section>
+          <Section>
+            <div data-test="product-grid" className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <ProductGrid
+                  key="search"
+                  url={`/search?q=${searchTerm}`}
+                  collection={{products}}
+                />
+            </div>
+          </Section>
+        
       )}
+      </div>
     </>
   );
 }
@@ -85,6 +90,7 @@ export async function loader({request, context: {storefront}}) {
   const searchParams = new URL(request.url).searchParams;
   const cursor = searchParams.get('cursor');
   const searchTerm = searchParams.get('q');
+
 
   const data = await storefront.query(SEARCH_QUERY, {
     variables: {
