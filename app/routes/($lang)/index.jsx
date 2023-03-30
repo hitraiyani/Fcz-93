@@ -38,6 +38,13 @@ export async function loader({params, context}) {
     },
   );
 
+  const styleGuide = context.storefront.query(
+    HOMEPAGE_STYLE_GUIDE_QUERY,
+    {
+      variables: {metaObjectId: 'gid://shopify/Metaobject/1932329281'},
+    },
+  );
+
   const fittingEveryOne = context.storefront.query(
     HOMEPAGE_FITTING_EVERYONE_QUERY,
     {
@@ -65,6 +72,7 @@ export async function loader({params, context}) {
       title: top_sale_collection.title.value,
       data: featureSaleCollectionProduct,
     },
+    styleGuide,
     fittingEveryOne,
     // These different queries are separated to illustrate how 3rd party content
     // fetching can be optimized for both above and below the fold.
@@ -93,6 +101,7 @@ export default function Homepage() {
     primaryHero,
     featuredProducts,
     fittingEveryOne,
+    styleGuide,
     featureSaleCollection,
   } = useLoaderData();
 
@@ -128,10 +137,26 @@ export default function Homepage() {
           </Await>
         </Suspense>
       )}
-      <StyleGuide
-        title="STYLE GUIDE"
-        count={2}
-      />
+
+
+      {styleGuide && (
+        <Suspense>
+          <Await resolve={styleGuide}>
+            {({data}) => {
+              if (!data) return <></>;
+              return (
+                <StyleGuide
+                  title={data.title}
+                  image_1={data.image_1}
+                  image_2={data.image_2}
+                  count={2}
+                />
+              );
+            }}
+          </Await>
+        </Suspense>
+      )}
+      
       {/* <Section heading={'STYLE GUIDE'} padding="y">
         <div className="container mx-auto">
           <div className="flex flex-wrap justify-center">
@@ -240,6 +265,32 @@ const HOMEPAGE_TOP_SALE_COLLECTION_QUERY = `#graphql
       }
       collection : field(key: "collection") {
         value
+      }
+    }
+      
+  }
+`;
+
+const HOMEPAGE_STYLE_GUIDE_QUERY = `#graphql
+${MEDIA_FRAGMENT}
+  query homeStyleGuide($metaObjectId: ID!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
+    data : metaobject(id : $metaObjectId) {
+      handle
+      id
+      type
+      title : field(key: "title") {
+        value
+      }
+      image_1 : field(key: "image_1") {
+        reference {
+          ...Media
+        }
+      }
+      image_2 : field(key: "image_2") {
+        reference {
+          ...Media
+        }
       }
     }
       
