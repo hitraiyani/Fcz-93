@@ -24,6 +24,7 @@ export {FeaturedProducts} from './FeaturedProducts';
 export {Pagination, getPaginationVariables, usePagination} from './Pagination';
 export {AddToCartButton} from './AddToCartButton';
 export {FeatureHomeProduct} from './FeatureHomeProduct';
+export {StyleGuide} from './StyleGuide';
 export {TopSaleHomeProduct} from './TopSaleHomeProduct';
 export {FittingEveryone} from './FittingEveryone';
 // Sue me

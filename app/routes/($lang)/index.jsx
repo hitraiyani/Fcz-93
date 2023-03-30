@@ -1,7 +1,16 @@
 import {defer} from '@shopify/remix-oxygen';
 import {Suspense} from 'react';
 import {Await, useLoaderData} from '@remix-run/react';
-import {ProductSwimlane, FeaturedCollections, Hero, FeatureHomeProduct, TopSaleHomeProduct, FittingEveryone, Section} from '~/components';
+import {
+  ProductSwimlane,
+  FeaturedCollections,
+  Hero,
+  FeatureHomeProduct,
+  TopSaleHomeProduct,
+  FittingEveryone,
+  Section,
+  StyleGuide,
+} from '~/components';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
 import {AnalyticsPageType} from '@shopify/hydrogen';
@@ -36,12 +45,13 @@ export async function loader({params, context}) {
     },
   );
 
-
   const featureSaleCollectionProduct = await context.storefront.query(
     FEATURED_SALE_COLLECTIONS_QUERY,
     {
       variables: {
-        ids: top_sale_collection.collection.value ? [top_sale_collection.collection.value] : [],
+        ids: top_sale_collection.collection.value
+          ? [top_sale_collection.collection.value]
+          : [],
         country,
         language,
       },
@@ -51,9 +61,9 @@ export async function loader({params, context}) {
   return defer({
     shop,
     primaryHero: hero,
-    featureSaleCollection : {
-      title : top_sale_collection.title.value,
-      data : featureSaleCollectionProduct,
+    featureSaleCollection: {
+      title: top_sale_collection.title.value,
+      data: featureSaleCollectionProduct,
     },
     fittingEveryOne,
     // These different queries are separated to illustrate how 3rd party content
@@ -83,7 +93,7 @@ export default function Homepage() {
     primaryHero,
     featuredProducts,
     fittingEveryOne,
-    featureSaleCollection
+    featureSaleCollection,
   } = useLoaderData();
 
   // TODO: skeletons vs placeholders
@@ -111,30 +121,39 @@ export default function Homepage() {
                 <FeatureHomeProduct
                   products={products.nodes}
                   title="LATEST DROPS"
-                  count={4}
+                  count={3}
                 />
               );
             }}
           </Await>
         </Suspense>
       )}
-
-      <Section heading={'STYLE GUIDE'} padding="y">
-          <div className="container mx-auto">
-            <div className="flex flex-wrap justify-center">
-              <div className="w-96 px-2">
-                <div className="logo-wrap">
-                  <img className='w-full' src="https://cdn.shopify.com/s/files/1/0739/7172/8705/files/style_guide_one.png?v=1680017229"></img>
-                </div>
+      <StyleGuide
+        title="STYLE GUIDE"
+        count={2}
+      />
+      {/* <Section heading={'STYLE GUIDE'} padding="y">
+        <div className="container mx-auto">
+          <div className="flex flex-wrap justify-center">
+            <div className="w-96 px-2">
+              <div className="logo-wrap">
+                <img
+                  className="w-full"
+                  src="https://cdn.shopify.com/s/files/1/0739/7172/8705/files/style_guide_one.png?v=1680017229"
+                ></img>
               </div>
-              <div className="w-96 px-2">
-                <div className="logo-wrap">
-                  <img className='w-full' src="https://cdn.shopify.com/s/files/1/0739/7172/8705/files/style_guide_two.png?v=1680017230"></img>
-                </div>
+            </div>
+            <div className="w-96 px-2">
+              <div className="logo-wrap">
+                <img
+                  className="w-full"
+                  src="https://cdn.shopify.com/s/files/1/0739/7172/8705/files/style_guide_two.png?v=1680017230"
+                ></img>
               </div>
             </div>
           </div>
-      </Section>
+        </div>
+      </Section> */}
 
       {featureSaleCollection && (
         <Suspense>
@@ -158,22 +177,14 @@ export default function Homepage() {
           <Await resolve={fittingEveryOne}>
             {(data) => {
               if (!data.data) return <></>;
-              return (
-                <FittingEveryone
-                  data={data.data}
-                />
-              );
+              return <FittingEveryone data={data.data} />;
             }}
           </Await>
         </Suspense>
       )}
-
-
-     
     </>
   );
 }
-
 
 // @see: https://shopify.dev/api/storefront/latest/queries/collections
 export const FEATURED_SALE_COLLECTIONS_QUERY = `#graphql
@@ -234,7 +245,6 @@ const HOMEPAGE_TOP_SALE_COLLECTION_QUERY = `#graphql
       
   }
 `;
-
 
 const HOMEPAGE_FITTING_EVERYONE_QUERY = `#graphql
 ${MEDIA_FRAGMENT}

@@ -12,9 +12,9 @@ export function FeatureHomeProduct({
 }) {
 
   return (
-    <div className='featureHomeProduct-section bg-black py-6 sm:py-7 md:py-10 lg:py-14 xl:py-20'>
+    <div className='featureHomeProduct-section bg-black py-6 sm:py-7 md:py-10 lg:py-14 xl:py-20 uppercase'>
       <div className='container mx-auto'>
-        <Heading heading={title} {...props} className={'text-white text-center w-full sec-title text-2xl pb-6 lg:pb-9 font-black'}>
+        <Heading heading={title} {...props} className={'text-white text-center w-full sec-title text-2xl pb-6 lg:pb-9 font-black uppercase'}>
         {title}
         </Heading>
       <Swiper
@@ -33,7 +33,7 @@ export function FeatureHomeProduct({
                   spaceBetween: 10
                 },
                 768: {
-                  slidesPerView: 2,
+                  slidesPerView: 2.2,
                   spaceBetween: 10
                 },
                 // when window width is >= 768px
