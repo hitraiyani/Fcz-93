@@ -27,5 +27,6 @@ export {FeatureHomeProduct} from './FeatureHomeProduct';
 export {StyleGuide} from './StyleGuide';
 export {TopSaleHomeProduct} from './TopSaleHomeProduct';
 export {FittingEveryone} from './FittingEveryone';
+export {ProductRecommnded} from './ProductRecommnded';
 // Sue me
 export * from './Icon';

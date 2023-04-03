@@ -30,10 +30,10 @@ import swiper_scrollbar from 'swiper/css/scrollbar';
 
 const seo = ({data, pathname}) => ({
   title: data?.layout?.shop?.name,
-  titleTemplate: '%s | Hydrogen Demo Store',
+  titleTemplate: '%s | FCZ-93',
   description: data?.layout?.shop?.description,
   handle: '@shopify',
-  url: `https://hydrogen.shop${pathname}`,
+  url : data?.url
 });
 
 export const handle = {
@@ -54,10 +54,6 @@ export const links = () => {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
     },
-    {
-      rel: 'preconnect',
-      href: 'https://shop.app',
-    },
     {rel: 'icon', type: 'image/svg+xml', href: favicon},
   ];
 };
@@ -67,7 +63,7 @@ export const meta = () => ({
   viewport: 'width=device-width,initial-scale=1',
 });
 
-export async function loader({context}) {
+export async function loader({context, request}) {
   const [cartId, layout] = await Promise.all([
     context.session.get('cartId'),
     getLayoutData(context),
@@ -82,6 +78,7 @@ export async function loader({context}) {
       shopifySalesChannel: ShopifySalesChannel.hydrogen,
       shopId: layout.shop.id,
     },
+    url: request.url
   });
 }
 

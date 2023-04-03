@@ -156,29 +156,6 @@ export default function Homepage() {
           </Await>
         </Suspense>
       )}
-      
-      {/* <Section heading={'STYLE GUIDE'} padding="y">
-        <div className="container mx-auto">
-          <div className="flex flex-wrap justify-center">
-            <div className="w-96 px-2">
-              <div className="logo-wrap">
-                <img
-                  className="w-full"
-                  src="https://cdn.shopify.com/s/files/1/0739/7172/8705/files/style_guide_one.png?v=1680017229"
-                ></img>
-              </div>
-            </div>
-            <div className="w-96 px-2">
-              <div className="logo-wrap">
-                <img
-                  className="w-full"
-                  src="https://cdn.shopify.com/s/files/1/0739/7172/8705/files/style_guide_two.png?v=1680017230"
-                ></img>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section> */}
 
       {featureSaleCollection && (
         <Suspense>

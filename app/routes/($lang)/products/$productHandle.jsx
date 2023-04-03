@@ -26,6 +26,7 @@ import {
   Text,
   Link,
   AddToCartButton,
+  ProductRecommnded
 } from '~/components';
 import {getExcerpt} from '~/lib/utils';
 import invariant from 'tiny-invariant';
@@ -78,7 +79,9 @@ export async function loader({params, request, context}) {
     throw new Response(null, {status: 404});
   }
 
-  const recommended = getRecommendedProducts(context.storefront, product.id);
+  //const recommended = getRecommendedProducts(context.storefront, product.id);
+
+  
   const firstVariant = product.variants.nodes[0];
   const selectedVariant = product.selectedVariant ?? firstVariant;
 
@@ -93,8 +96,6 @@ export async function loader({params, request, context}) {
 
   return defer({
     product,
-    shop,
-    recommended,
     analytics: {
       pageType: AnalyticsPageType.product,
       resourceId: product.id,
@@ -105,65 +106,40 @@ export async function loader({params, request, context}) {
 }
 
 export default function Product() {
-  const {product, shop, recommended} = useLoaderData();
-  const {media, title, vendor, descriptionHtml} = product;
-  const {shippingPolicy, refundPolicy} = shop;
+  const {product} = useLoaderData();
+
+  const collectionProducts = product?.collections?.nodes[0].products?.nodes?.filter((prod) => prod.id != product.id);
+  const recommendedProducts = collectionProducts?.slice(0, 3);
+
+  const {media, title, descriptionHtml} = product;
 
   return (
     <>
-      <Section padding="x" className="px-0">
-        <div className="grid items-start md:gap-6 lg:gap-20 md:grid-cols-2 lg:grid-cols-3">
-          <ProductGallery
-            media={media.nodes}
-            className="w-screen md:w-full lg:col-span-2"
-          />
-          <div className="sticky md:-mb-nav md:top-nav md:-translate-y-nav md:h-screen md:pt-nav hiddenScroll md:overflow-y-scroll">
-            <section className="flex flex-col w-full max-w-xl gap-8 p-6 md:mx-auto md:max-w-sm md:px-0">
-              <div className="grid gap-2">
-                <Heading as="h1" className="whitespace-normal">
-                  {title}
-                </Heading>
-                {vendor && (
-                  <Text className={'opacity-50 font-medium'}>{vendor}</Text>
-                )}
-              </div>
-              <ProductForm />
-              <div className="grid gap-4 py-4">
-                {descriptionHtml && (
-                  <ProductDetail
-                    title="Product Details"
-                    content={descriptionHtml}
-                  />
-                )}
-                {shippingPolicy?.body && (
-                  <ProductDetail
-                    title="Shipping"
-                    content={getExcerpt(shippingPolicy.body)}
-                    learnMore={`/policies/${shippingPolicy.handle}`}
-                  />
-                )}
-                {refundPolicy?.body && (
-                  <ProductDetail
-                    title="Returns"
-                    content={getExcerpt(refundPolicy.body)}
-                    learnMore={`/policies/${refundPolicy.handle}`}
-                  />
-                )}
-              </div>
-            </section>
-          </div>
+       <Section className="px-0 py-4 product-main">
+       <div className="container mx-auto overflow-x-hidden">
+            <div className="flex flex-wrap">
+                <ProductGallery
+                  media={media.nodes}
+                  className="w-full lg:w-2/4 product-gallery-wrap"
+                />
+                <div className="w-full lg:w-2/4 product-info-wrap relative">
+                    <Heading as="h1" className="whitespace-normal">
+                      {title}
+                    </Heading>
+                    <ProductForm />
+                    <div className="description-wrap">
+                      {descriptionHtml && (
+                        <div
+                          className=""
+                          dangerouslySetInnerHTML={{__html: descriptionHtml}}
+                        />
+                      )}
+                    </div>
+                </div>
+            </div>
         </div>
       </Section>
-      <Suspense fallback={<Skeleton className="h-32" />}>
-        <Await
-          errorElement="There was a problem loading related products"
-          resolve={recommended}
-        >
-          {(products) => (
-            <ProductSwimlane title="Related Products" products={products} />
-          )}
-        </Await>
-      </Suspense>
+      <ProductRecommnded title="RECOMMENDED FOR YOU" title_handle={`collections/${product.collections.nodes[0].handle}`} products={recommendedProducts} />
     </>
   );
 }
@@ -231,6 +207,24 @@ export function ProductForm() {
           searchParamsWithDefaults={searchParamsWithDefaults}
         />
         {selectedVariant && (
+         <>
+           <div className="flex gap-1">
+          <Text className="flex gap-1 text-lg price">
+            <Money
+              withoutTrailingZeros
+              data={selectedVariant?.price}
+              className={`${isOnSale ? 'sale-price' : ''}`}
+            />
+            {isOnSale && (
+              <Money
+                withoutTrailingZeros
+                data={selectedVariant?.compareAtPrice}
+                as="span"
+                className="text-gray-400 line-through"
+              />
+            )}
+          </Text>
+        </div>
           <div className="grid items-stretch gap-4">
             <AddToCartButton
               lines={[
@@ -253,27 +247,12 @@ export function ProductForm() {
                   as="span"
                   className="flex items-center justify-center gap-2"
                 >
-                  <span>Add to Bag</span> <span>·</span>{' '}
-                  <Money
-                    withoutTrailingZeros
-                    data={selectedVariant?.price}
-                    as="span"
-                  />
-                  {isOnSale && (
-                    <Money
-                      withoutTrailingZeros
-                      data={selectedVariant?.compareAtPrice}
-                      as="span"
-                      className="opacity-50 strike"
-                    />
-                  )}
+                  <span>ADD TO BAG</span>
                 </Text>
               )}
             </AddToCartButton>
-            {!isOutOfStock && (
-              <ShopPayButton variantIds={[selectedVariant?.id]} />
-            )}
           </div>
+         </>
         )}
       </div>
     </div>
@@ -282,101 +261,33 @@ export function ProductForm() {
 
 function ProductOptions({options, searchParamsWithDefaults}) {
   const closeRef = useRef(null);
+  
   return (
     <>
       {options
         .filter((option) => option.values.length > 1)
         .map((option) => (
           <div
-            key={option.name}
+            key={option.name.toString()}
             className="flex flex-col flex-wrap mb-4 gap-y-2 last:mb-0"
           >
             <Heading as="legend" size="lead" className="min-w-[4rem]">
               {option.name}
             </Heading>
             <div className="flex flex-wrap items-baseline gap-4">
-              {/**
-               * First, we render a bunch of <Link> elements for each option value.
-               * When the user clicks one of these buttons, it will hit the loader
-               * to get the new data.
-               *
-               * If there are more than 7 values, we render a dropdown.
-               * Otherwise, we just render plain links.
-               */}
-              {option.values.length > 7 ? (
-                <div className="relative w-full">
-                  <Listbox>
-                    {({open}) => (
-                      <>
-                        <Listbox.Button
-                          ref={closeRef}
-                          className={clsx(
-                            'flex items-center justify-between w-full py-3 px-4 border border-primary',
-                            open
-                              ? 'rounded-b md:rounded-t md:rounded-b-none'
-                              : 'rounded',
-                          )}
-                        >
-                          <span>
-                            {searchParamsWithDefaults.get(option.name)}
-                          </span>
-                          <IconCaret direction={open ? 'up' : 'down'} />
-                        </Listbox.Button>
-                        <Listbox.Options
-                          className={clsx(
-                            'border-primary bg-contrast absolute bottom-12 z-30 grid h-48 w-full overflow-y-scroll rounded-t border px-2 py-2 transition-[max-height] duration-150 sm:bottom-auto md:rounded-b md:rounded-t-none md:border-t-0 md:border-b',
-                            open ? 'max-h-48' : 'max-h-0',
-                          )}
-                        >
-                          {option.values.map((value) => (
-                            <Listbox.Option
-                              key={`option-${option.name}-${value}`}
-                              value={value}
-                            >
-                              {({active}) => (
-                                <ProductOptionLink
-                                  optionName={option.name}
-                                  optionValue={value}
-                                  className={clsx(
-                                    'text-primary w-full p-2 transition rounded flex justify-start items-center text-left cursor-pointer',
-                                    active && 'bg-primary/10',
-                                  )}
-                                  searchParams={searchParamsWithDefaults}
-                                  onClick={() => {
-                                    if (!closeRef?.current) return;
-                                    closeRef.current.click();
-                                  }}
-                                >
-                                  {value}
-                                  {searchParamsWithDefaults.get(option.name) ===
-                                    value && (
-                                    <span className="ml-2">
-                                      <IconCheck />
-                                    </span>
-                                  )}
-                                </ProductOptionLink>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                        </Listbox.Options>
-                      </>
-                    )}
-                  </Listbox>
-                </div>
-              ) : (
-                <>
+              <>
                   {option.values.map((value) => {
                     const checked =
                       searchParamsWithDefaults.get(option.name) === value;
                     const id = `option-${option.name}-${value}`;
 
-
                     return (
-                      <>
+                      <span key={id.toString()}>
                         {
                           option.name == 'Color' ? (
                             <>
                               <ProductOptionLink
+                                
                                 optionName={option.name}
                                 optionValue={value}
                                 searchParams={searchParamsWithDefaults}
@@ -389,7 +300,7 @@ function ProductOptions({options, searchParamsWithDefaults}) {
                                 <span className='sr-only'>{value}</span>
                               </ProductOptionLink>
                             </>
-                          ) : ( <Text key={id}>
+                          ) : ( <Text>
                             <ProductOptionLink
                               optionName={option.name}
                               optionValue={value}
@@ -401,11 +312,10 @@ function ProductOptions({options, searchParamsWithDefaults}) {
                             />
                           </Text>)
                         }
-                      </>
+                      </span>
                     );
                   })}
                 </>
-              )}
             </div>
           </div>
         ))}
@@ -523,6 +433,7 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
 const PRODUCT_QUERY = `#graphql
   ${MEDIA_FRAGMENT}
   ${PRODUCT_VARIANT_FRAGMENT}
+  ${PRODUCT_CARD_FRAGMENT}
   query Product(
     $country: CountryCode
     $language: LanguageCode
@@ -551,6 +462,16 @@ const PRODUCT_QUERY = `#graphql
       variants(first: 1) {
         nodes {
           ...ProductVariantFragment
+        }
+      }
+      collections(first : 1) {
+        nodes {
+          handle
+          products(first: 4) {
+            nodes {
+              ...ProductCard
+            }
+          }
         }
       }
       seo {
@@ -593,7 +514,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
 
 async function getRecommendedProducts(storefront, productId) {
   const products = await storefront.query(RECOMMENDED_PRODUCTS_QUERY, {
-    variables: {productId, count: 12},
+    variables: {productId, count: 3},
   });
 
   invariant(products, 'No data returned from Shopify API');
