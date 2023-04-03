@@ -327,7 +327,7 @@ function DesktopHeader({isHome, menu, openCart, title}) {
       role="banner"
       className={`${isHome ? 'index-header' : ''} ${
         !isHome && y > 50 && ' shadow-lightHeader'
-      } site-header bg-black sticky top-0 z-10 hidden md:block`}
+      } site-header bg-black sticky top-0 z-50 hidden md:block`}
     >
       <div className="container mx-auto">
         <div className="header-top flex flex-wrap justify-between items-center py-5">

@@ -126,18 +126,23 @@ export default function Collection() {
 
   return (
     <>
-      <div className="product-collections-sec pb-20 container pt-10 block mx-auto">
-        <Heading
-          as="h1"
-          className="text-2xl mb-2 text-black font-semibold capitalize"
-        >
-          {collection.title}
-        </Heading>
+      <div className="product-collections-sec pb-20 container pt-3 block mx-auto">
+        {/* Breadcrumb */}
+        <div className="Breadcrumb mb-3" aria-label="Breadcrumb">
+          <ol className="flex flex-wrap gap-1 items-center text-black text-xs font-semibold">
+            <li> <a href="#">Men</a> </li>
+            <li> <span>/</span> </li>
+            <li> <a href="#">Clothing</a> </li>
+            <li> <span>/</span> </li>
+            <li> <span>Clothing</span> </li>
+          </ol>
+        </div>
         <SortFilter
           filters={collection.products.filters}
           appliedFilters={appliedFilters}
           appliedCustomFilters={appliedCustomFilters}
           collections={collections}
+          className="mb-6 sortFilter-wrap items-start"
         ></SortFilter>
         <div className="product-grid-row -mx-2 lg:-mx-3">
           <div
@@ -149,7 +154,7 @@ export default function Collection() {
               collection={collection}
               url={`/collections/${collection.handle}`}
               data-test="product-grid"
-              className="w-2/4 lg:w-1/4 px-2 lg:px-3 product-item"
+              className="w-2/4 lg:w-1/3 xl:w-1/4 px-2 lg:px-3 product-item"
             />
           </div>
         </div>

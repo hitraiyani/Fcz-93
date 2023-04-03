@@ -16,11 +16,12 @@ export function SortFilter({
   appliedFilters = [],
   appliedCustomFilters = [],
   collections = [],
+  className
 }) {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <>
-      <div className="flex items-center justify-between w-full">
+      <div className={`flex justify-between w-full ${className}`}>
         <FiltersDrawer
           collections={collections}
           filters={filters}
@@ -62,13 +63,28 @@ export function FiltersDrawer({
         const to = getFilterLink(filter, option.input, params, location, appliedCustomFilters);
         return (
           <>
-            <Link
-              className={`focus:underline hover:underline ${appliedCustomFilters.includes(option.label) ? 'bg-green-600' : ''}`}
+          {filter.label == 'Color' ? 
+          (<><Link
+            className={`border-2 block hover:border-white rounded-full transition-all ${appliedCustomFilters.includes(option.label) ? 'shadow-xl shadow-gray-500 border-white' : ' border-transparent'}`}
+            prefetch="intent"
+            to={to}
+          > 
+             {filter.label == 'Color' ? (<><div className='rounded-full h-10 w-10' style={{ backgroundColor: option.label }}></div></>) : option.label}
+          </Link></>) : 
+          (<><><Link
+            className={`border border-black hover:text-white hover:bg-black rounded-none w-10 min-w-fit h-10 flex justify-center items-center text-center text-sm p-1 text-balck font-semibold transition-all ${appliedCustomFilters.includes(option.label) ? 'text-white bg-black' : ''}`}
+            prefetch="intent"
+            to={to}
+          > 
+             {filter.label == 'Color' ? (<><div className='rounded-full h-10 w-10' style={{ backgroundColor: option.label }}></div></>) : option.label}
+          </Link></></>)}
+            {/* <Link
+              className={`border border-black hover:text-white hover:bg-black rounded-none w-10 min-w-fit h-10 flex justify-center items-center text-center text-sm p-1 text-balck font-semibold ${appliedCustomFilters.includes(option.label) ? 'text-white bg-black' : ''}`}
               prefetch="intent"
               to={to}
-            >
-               {filter.label == 'Color' ? (<><div className='rounded-full h-5 w-6' style={{ backgroundColor: option.label }}></div></>) : option.label}
-            </Link>
+            > 
+               {filter.label == 'Color' ? (<><div className='rounded-full h-10 w-10' style={{ backgroundColor: option.label }}></div></>) : option.label}
+            </Link> */}
           </>
         );
     }
@@ -76,37 +92,42 @@ export function FiltersDrawer({
 
   return (
     <>
-      <nav className="">
+      <nav className="flex-1">
         {appliedFilters.length > 0 ? (
-          <div className="pb-8">
+          <div className="pb-8 hidden">
             <AppliedFilters filters={appliedFilters} />
           </div>
         ) : null}
 
-        <div className='flex'>
-        <Heading as="h4" size="lead" className='w-16'>
+        <Heading as="h4" size="lead" className='hidden'>
           Filter By
+          <span  className="toggle-btn absolute right-0 top-0 w-10 h-14 text-white flex items-center justify-center cursor-pointer">
+            <svg className="icon" xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 32 32" > <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m6 12l10 10l10-10" /> </svg>
+          </span>
         </Heading>
+        <div className='flex fle-wrap fillters-wrap gap-x-5 ld:gap-x-8 xl:gap-x-16'>
           {filters.map(
             (filter) =>
               filter.values.length > 0 && (
-                <Disclosure as="div" key={filter.id} className="w-full">
+                <Disclosure as="div" key={filter.id} className="filter-item">
                   {({open}) => (
                     <>
-                      <Disclosure.Button className="flex justify-between w-full py-4">
-                        <Text size="lead">{filter.label}</Text>
+                      <Disclosure.Button className={`${open ? 'active' : ''} flex flex-wrap items-center gap-x-1 xl:gap-x-2 btn relative pb-5`}>
+                        <Text className={'font-bold text-lg uppercase text-black'}>{filter.label}</Text>
                         <IconCaret direction={open ? 'up' : 'down'} />
                       </Disclosure.Button>
-                      <Disclosure.Panel key={filter.id}>
-                        <ul key={filter.id} className="py-2">
+                      <Disclosure.Panel as="div" key={filter.id} className="fillter-dropdown-wrap absolute bg-black z-10">
+                        <div className='container mx-auto'>
+                        <ul key={filter.id} className="py-6 flex flex-wrap gap-x-6 gap-y-3">
                           {filter.values?.map((option) => {
                             return (
-                              <li key={option.id} className="pb-4">
+                              <li key={option.id} className="">
                                 {filterMarkup(filter, option)}
                               </li>
                             );
                           })}
                         </ul>
+                          </div>
                       </Disclosure.Panel>
                     </>
                   )}
@@ -218,12 +239,12 @@ function PriceRangeFilter({max, min, appliedCustomFilters}) {
   };
 
   return (
-    <div className="flex flex-col">
-      <label className="mb-4">
-        <span>from</span>
+    <div className="flex flex-wrap gap-3 items-center">
+      <label className="">
+        <span className='pr-2 text-black text-sm font-bold'>from</span>
         <input
           name="maxPrice"
-          className="text-black"
+          className="placeholder:text-black text-black border border-black p-3 w-full bg-transparent focus:outline-none font-normal placeholder:font-normal"
           type="text"
           defaultValue={min}
           placeholder={'$'}
@@ -231,10 +252,10 @@ function PriceRangeFilter({max, min, appliedCustomFilters}) {
         />
       </label>
       <label>
-        <span>to</span>
+        <span className='pr-2 text-black text-sm font-bold'>to</span>
         <input
           name="minPrice"
-          className="text-black"
+          className="placeholder:text-black text-black border border-black p-3 w-full bg-transparent focus:outline-none font-normal placeholder:font-normal"
           type="number"
           defaultValue={max}
           placeholder={'$'}
@@ -320,25 +341,26 @@ export default function SortMenu() {
   const activeItem = items.find((item) => item.key === params.get('sort'));
 
   return (
-    <Menu as="div" className="relative z-40">
-      <Menu.Button className="flex items-center">
-        <span className="px-2">
-          <span className="px-2 font-medium">Sort by:</span>
-          <span>{(activeItem || items[0]).label}</span>
+    <Menu as="div" className="relative -mt-6">
+      <Menu.Button className="sortby-wrap">
+        <span className="flex flex-col">
+          <span className="block text-sm font-bold text-left">Sort by:</span>
+          <span className='font-bold text-lg uppercase text-black flex items-center gap-2'>{(activeItem || items[0]).label}
+          <IconCaret />
+          </span>
         </span>
-        <IconCaret />
       </Menu.Button>
 
       <Menu.Items
         as="nav"
-        className="absolute right-0 flex flex-col p-4 text-right rounded-sm bg-contrast"
+        className="absolute right-0 flex flex-col p-4 text-left rounded-sm bg-black w-full min-w-max z-10"
       >
         {items.map((item) => (
           <Menu.Item key={item.label}>
             {() => (
               <Link
-                className={`block text-sm pb-2 px-3 ${
-                  activeItem?.key === item.key ? 'font-bold' : 'font-normal'
+                className={`block text-sm py-1 font-bold ${
+                  activeItem?.key === item.key ? 'primary-color' : 'text-white'
                 }`}
                 to={getSortLink(item.key, params, location)}
               >
