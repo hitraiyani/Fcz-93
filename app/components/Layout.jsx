@@ -463,7 +463,7 @@ function SubMegaMenu({menu_items}) {
                 />
               </svg>
             </span>
-            <ul className="sub-menu-items flex flex-col gap-1">
+            <ul className="sub-menu-items flex flex-col gap-1 pb-3">
               {(item?.items || []).map((sub_item) => {
                 return (
                   <li className="nav-item" key={sub_item.id}>

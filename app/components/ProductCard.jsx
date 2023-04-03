@@ -41,21 +41,21 @@ export function ProductCard({
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className={clsx('', className)}>
       <Link
         onClick={onClick}
         to={`/products/${product.handle}`}
         prefetch="intent"
       >
-        <div className={clsx('grid gap-4', className)}>
-          <div className="card-image aspect-[4/5] bg-primary/5">
+        <div className={'grid gap-4'}>
+          <div className="card-image aspect-[2/2] overflow-hidden bg-white border border-gray-500">
             {image && (
               <Image
-                className="aspect-[4/5] w-full object-cover fadeIn"
-                widths={[320]}
-                sizes="320px"
+                className="hover:scale-110 transition hover:duration-500 object-cover object-center h-full w-full"
+                // widths={[320]}
+                // sizes="320px"
                 loaderOptions={{
-                  crop: 'center',
+                  // crop: 'center',
                   scale: 2,
                   width: 320,
                   height: 400,
@@ -66,19 +66,19 @@ export function ProductCard({
               />
             )}
           </div>
-          <div className="grid gap-1">
+          <div className="grid">
             <Text
-              className="w-full overflow-hidden whitespace-nowrap text-ellipsis "
+              className="text-black text-xs md:text-base lg:text-lg text-left font-black md:leading-5"
               as="h3"
             >
               {product.title}
             </Text>
             <div className="flex gap-4">
-              <Text className="flex gap-4">
+              <Text className="flex gap-3 text-xs md:text-base lg:text-lg font-bold text-black">
                 <Money withoutTrailingZeros data={price} />
                 {isDiscounted(price, compareAtPrice) && (
                   <CompareAtPrice
-                    className={'opacity-50'}
+                  className={'text-black line-through font-medium'}
                     data={compareAtPrice}
                   />
                 )}

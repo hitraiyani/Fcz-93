@@ -121,28 +121,37 @@ export async function loader({params, request, context}) {
 }
 
 export default function Collection() {
-  const {collection, collections, appliedFilters, appliedCustomFilters} = useLoaderData();
+  const {collection, collections, appliedFilters, appliedCustomFilters} =
+    useLoaderData();
 
   return (
     <>
-      <div className="product-collections-sec pb-10 container pt-10 block mx-auto">
-        <Heading as="h1" className='text-2xl mb-2 text-black font-semibold capitalize'>
+      <div className="product-collections-sec pb-20 container pt-10 block mx-auto">
+        <Heading
+          as="h1"
+          className="text-2xl mb-2 text-black font-semibold capitalize"
+        >
           {collection.title}
         </Heading>
         <SortFilter
-            filters={collection.products.filters}
-            appliedFilters={appliedFilters}
-            appliedCustomFilters={appliedCustomFilters}
-            collections={collections}
+          filters={collection.products.filters}
+          appliedFilters={appliedFilters}
+          appliedCustomFilters={appliedCustomFilters}
+          collections={collections}
+        ></SortFilter>
+        <div className="product-grid-row -mx-2 lg:-mx-3">
+          <div
+            data-test="product-grid"
+            className="flex flex-wrap gap-y-7 lg:gap-y-12 product-items"
           >
-          </SortFilter>
-        <div data-test="product-grid" className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          <ProductGrid
+            <ProductGrid
               key={collection.id}
               collection={collection}
               url={`/collections/${collection.handle}`}
               data-test="product-grid"
+              className="w-2/4 lg:w-1/4 px-2 lg:px-3 product-item"
             />
+          </div>
         </div>
       </div>
     </>

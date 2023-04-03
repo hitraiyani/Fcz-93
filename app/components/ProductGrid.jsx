@@ -3,7 +3,7 @@ import {getImageLoadingPriority} from '~/lib/const';
 import {useFetcher} from '@remix-run/react';
 import {useEffect, useState} from 'react';
 
-export function ProductGrid({url, collection, ...props}) {
+export function ProductGrid({url, collection, className, ...props}) {
   const [initialProducts, setInitialProducts] = useState(
     collection?.products?.nodes || [],
   );
@@ -59,6 +59,7 @@ export function ProductGrid({url, collection, ...props}) {
           key={product.id}
           product={product}
           loading={getImageLoadingPriority(i)}
+          className={className}
         />
       ))}
       {nextPage && (
