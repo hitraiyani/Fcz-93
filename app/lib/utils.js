@@ -326,3 +326,20 @@ export function toHTML(content) {
 	});
 	return html.replace(/\n/g, "<br />");
 }
+
+export function addFavouriteProduct(productHandle) {
+  const wishlist = localStorage.getItem('user_wishlist') ? JSON.parse(localStorage.getItem('user_wishlist')) : [];
+  if (!wishlist.includes(productHandle)) {
+    wishlist.push(productHandle);
+    localStorage.setItem('user_wishlist', JSON.stringify(wishlist));
+  }
+}
+
+export function removeFavouriteProduct(productHandle) {
+  const wishlist = localStorage.getItem('user_wishlist') ? JSON.parse(localStorage.getItem('user_wishlist')) : [];
+  if (wishlist.includes(productHandle)) {
+    var removeIndex = wishlist.indexOf(productHandle);
+    wishlist.splice(removeIndex, 1);
+    localStorage.setItem('user_wishlist', JSON.stringify(wishlist));
+  }
+}

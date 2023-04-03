@@ -1,4 +1,5 @@
-import {useRef, Suspense, useMemo} from 'react';
+import {useRef, useMemo,  useState, useEffect} from 'react';
+
 import {Disclosure, Listbox} from '@headlessui/react';
 import {defer} from '@shopify/remix-oxygen';
 import {
@@ -16,6 +17,7 @@ import {
 } from '@shopify/hydrogen';
 import {
   Heading,
+  IconHeart,
   IconCaret,
   IconCheck,
   IconClose,
@@ -28,7 +30,7 @@ import {
   AddToCartButton,
   ProductRecommnded
 } from '~/components';
-import {getExcerpt} from '~/lib/utils';
+import {getExcerpt, addFavouriteProduct, removeFavouriteProduct} from '~/lib/utils';
 import invariant from 'tiny-invariant';
 import clsx from 'clsx';
 import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
@@ -150,6 +152,31 @@ export function ProductForm() {
   const [currentSearchParams] = useSearchParams();
   const transition = useTransition();
 
+
+
+  // Add to Favourite
+  const [isAdded, setIsAdded] = useState(false);
+
+  useEffect(() => {
+    setIsAdded(false);
+    if (localStorage.getItem('user_wishlist')) {
+      const wishlist = JSON.parse(localStorage.getItem('user_wishlist'));
+      if (wishlist.includes(product.handle)) { 
+        setIsAdded(true);
+      }
+    }
+  }, [product.handle]);
+
+  const handleAddWishlist = () => {
+    addFavouriteProduct(product.handle);
+    setIsAdded(true);
+  };
+
+  const handleRemoveWishlist = () => {
+    removeFavouriteProduct(product.handle);
+    setIsAdded(false);
+  };
+
   /**
    * We update `searchParams` with in-flight request data from `transition` (if available)
    * to create an optimistic UI, e.g. check the product option before the
@@ -251,6 +278,9 @@ export function ProductForm() {
                 </Text>
               )}
             </AddToCartButton>
+              <button onClick={ isAdded ?  handleRemoveWishlist : handleAddWishlist } className="w-full  primary-bg-color flex justify-center rounded font-medium  py-3 px-6 border border-black bg-primary text-contrast" >
+                <IconHeart fill= {isAdded ? '#555' : 'none'}/>&nbsp; FAVOURITE
+             </button>
           </div>
          </>
         )}
