@@ -358,30 +358,72 @@ a:hover {
 /* collection page css */
 
 /* filtter css */
-.fillter-dropdown-wrap {
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  width: 100%;
-  width: 100vw;
-  background-color: var(--primary-color);
-}
-.filter-item .btn.active::before {
-  content: "";
-  width: 0px;
-  height: 0px;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 15px solid var(--primary-color);
-  position: absolute;
-  bottom: 0;
-  left: 40%;
-  transform: translate(-50%);
+@media (min-width: 1024px) {
+  .fillter-dropdown-wrap {
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100%;
+    width: 100vw;
+    background-color: var(--primary-color);
+  }
+  .filter-item .btn.active::before {
+    content: '';
+    width: 0px;
+    height: 0px;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 15px solid var(--primary-color);
+    position: absolute;
+    bottom: 0;
+    left: 40%;
+    transform: translate(-50%);
+  }
 }
 .filter-item .btn svg,
-.sortby-wrap svg{
+.sortby-wrap svg,
+.filter-toggle-btn svg {
   width: 30px;
   height: 30px;
+}
+@media (max-width: 1023px) {
+  .sortFilter-wrap .filter-wrap-main {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    max-width: 512px;
+    background-color: var(--primary-color);
+    transition: all 0.5s;
+    opacity: 0;
+    z-index: -1;
+  }
+  .sortFilter-wrap .filter-wrap-main.active {
+    z-index: 55;
+    left: 0;
+    opacity: 1;
+  }
+  .sortFilter-wrap .filter-wrap-main .fillters-wrap {
+    width: 100%;
+    height: 100%;
+    flex-flow: column;
+  }
+  .sortFilter-wrap .filter-wrap-main .fillters-wrap .fillter-dropdown-wrap {
+    background: transparent;
+    position: relative;
+  }
+  .sortFilter-wrap .filter-wrap-main .fillters-wrap .container {
+    padding-left: 0;
+    margin-right: 0;
+  }
+  .sortFilter-wrap .filter-wrap-main .fillters-wrap .btn {
+    justify-content: space-between;
+    width: 100%;
+  }
+  .sortFilter-wrap .filter-wrap-main .fillters-wrap .filter-item {
+    border-bottom: 1px solid #fff;
+  }
 }
 /* End filtter css */

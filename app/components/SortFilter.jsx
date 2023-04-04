@@ -1,7 +1,7 @@
 import {useMemo, useState} from 'react';
 import {Menu} from '@headlessui/react';
 
-import {Heading, IconFilters, IconCaret, IconXMark, Text} from '~/components';
+import {Heading, IconFilters, IconCaret, IconXMark, Text, IconClose} from '~/components';
 import {
   Link,
   useLocation,
@@ -89,36 +89,48 @@ export function FiltersDrawer({
         );
     }
   };
-
+  
+  // const filterHandleclick = (event) => {
+  //   event.currentTarget.parentNode.classList.toggle('active');
+  // };
+  const [isActive, setIsActive] = useState(false);
+  const filterHandleclick = event => {
+    // 👇️ toggle isActive state on click
+    setIsActive(current => !current);
+  };
   return (
     <>
-      <nav className="flex-1">
+      <Heading as="h4" size="lead" className='font-bold text-lg uppercase text-black lg:hidden relative flex items-center pr-5 cursor-pointer filter-toggle-btn' onClick={filterHandleclick}>
+          Filter
+          <IconCaret direction="down" />
+      </Heading>
+        <div className={`${isActive ? 'block' : 'hidden'} mobile-filter-overlay  fixed inset-0 bg-black bg-opacity-70 opacity-100 z-50`}  onClick={filterHandleclick}></div>
+      <div className={`${isActive ? 'active' : ''} filter-wrap-main flex-1`}>
+        <div className=''>
+          <Heading as="h4" size="lead" className='font-black text-lg uppercase text-black lg:hidden relative flex items-center px-5 pt-4 pb-4 border-b border-white mb-4 justify-between filter-toggle-btn'>
+              Filter
+              <IconClose onClick={filterHandleclick} className={'cursor-pointer'} />
+          </Heading>
+        </div>
         {appliedFilters.length > 0 ? (
           <div className="pb-8 hidden">
             <AppliedFilters filters={appliedFilters} />
           </div>
         ) : null}
-
-        <Heading as="h4" size="lead" className='hidden'>
-          Filter By
-          <span  className="toggle-btn absolute right-0 top-0 w-10 h-14 text-white flex items-center justify-center cursor-pointer">
-            <svg className="icon" xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 32 32" > <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="m6 12l10 10l10-10" /> </svg>
-          </span>
-        </Heading>
-        <div className='flex fle-wrap fillters-wrap gap-x-5 ld:gap-x-8 xl:gap-x-16'>
+        <div className='flex fle-wrap px-5 lg:px-0 fillters-wrap gap-x-5 ld:gap-x-8 xl:gap-x-16'>
           {filters.map(
             (filter) =>
               filter.values.length > 0 && (
-                <Disclosure as="div" key={filter.id} className="filter-item">
+                <Disclosure as="div" key={filter.id} className="filter-item pb-4 mb-4 lg:pb-0 lg:mb-0">
                   {({open}) => (
                     <>
-                      <Disclosure.Button className={`${open ? 'active' : ''} flex flex-wrap items-center gap-x-1 xl:gap-x-2 btn relative pb-5`}>
+                      <Disclosure.Button className={`${open ? 'active' : ''} flex flex-wrap items-center gap-x-1 xl:gap-x-2 btn relative lg:pb-5 pb-0`}>
                         <Text className={'font-bold text-lg uppercase text-black'}>{filter.label}</Text>
                         <IconCaret direction={open ? 'up' : 'down'} />
                       </Disclosure.Button>
                       <Disclosure.Panel as="div" key={filter.id} className="fillter-dropdown-wrap absolute bg-black z-10">
                         <div className='container mx-auto'>
-                        <ul key={filter.id} className="py-6 flex flex-wrap gap-x-6 gap-y-3">
+                        <ul key={filter.id} className="pt-4 lg:py-6 flex flex-wrap gap-x-6 gap-y-3">
                           {filter.values?.map((option) => {
                             return (
                               <li key={option.id} className="">
@@ -135,7 +147,7 @@ export function FiltersDrawer({
               ),
           )}
         </div>
-      </nav>
+      </div>
     </>
   );
 }
@@ -341,11 +353,11 @@ export default function SortMenu() {
   const activeItem = items.find((item) => item.key === params.get('sort'));
 
   return (
-    <Menu as="div" className="relative -mt-6">
+    <Menu as="div" className="relative -mt-5">
       <Menu.Button className="sortby-wrap">
         <span className="flex flex-col">
-          <span className="block text-sm font-bold text-left">Sort by:</span>
-          <span className='font-bold text-lg uppercase text-black flex items-center gap-2'>{(activeItem || items[0]).label}
+          <span className="block text-sm font-bold text-left leading-none">Sort by:</span>
+          <span className='font-bold text-lg uppercase text-black flex items-center gap-1'>{(activeItem || items[0]).label}
           <IconCaret />
           </span>
         </span>

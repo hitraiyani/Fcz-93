@@ -129,7 +129,7 @@ export default function Collection() {
       <div className="product-collections-sec pb-20 container pt-3 block mx-auto">
         {/* Breadcrumb */}
         <div className="Breadcrumb mb-3" aria-label="Breadcrumb">
-          <ol className="flex flex-wrap gap-1 items-center text-black text-xs font-semibold">
+          <ol className="flex flex-wrap gap-1 items-center text-black text-xs font-semibold mb-8 md:mb-0">
             <li> <a href="#">Men</a> </li>
             <li> <span>/</span> </li>
             <li> <a href="#">Clothing</a> </li>
