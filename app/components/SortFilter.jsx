@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Menu} from '@headlessui/react';
 
 import {Heading, IconFilters, IconCaret, IconXMark, Text, IconClose} from '~/components';
@@ -98,6 +98,27 @@ export function FiltersDrawer({
     // 👇️ toggle isActive state on click
     setIsActive(current => !current);
   };
+
+  const refs = React.useMemo(() => {
+    return (
+      filters.map(() => {
+        return React.createRef();
+      }) ?? []
+    );
+  }, []);
+
+  function handleClosingOthers(id) {
+    const otherRefs = refs.filter((ref) => {
+      return ref.current?.getAttribute("data-id") !== id;
+    });
+
+    otherRefs.forEach((ref) => {
+      const isOpen = ref.current?.getAttribute("data-open") === "true";
+      if (isOpen) {
+        ref.current?.click();
+      }
+    });
+  }
   return (
     <>
       <Heading as="h4" size="lead" className='font-bold text-lg uppercase text-black lg:hidden relative flex items-center pr-5 cursor-pointer filter-toggle-btn' onClick={filterHandleclick}>
@@ -119,12 +140,19 @@ export function FiltersDrawer({
         ) : null}
         <div className='flex fle-wrap px-5 lg:px-0 fillters-wrap gap-x-5 ld:gap-x-8 xl:gap-x-16'>
           {filters.map(
-            (filter) =>
+            (filter, idx) =>
               filter.values.length > 0 && (
                 <Disclosure as="div" key={filter.id} className="filter-item pb-4 mb-4 lg:pb-0 lg:mb-0">
                   {({open}) => (
                     <>
-                      <Disclosure.Button className={`${open ? 'active' : ''} flex flex-wrap items-center gap-x-1 xl:gap-x-2 btn relative lg:pb-5 pb-0`}>
+                      <Disclosure.Button className={`${open ? 'active' : ''} flex flex-wrap items-center gap-x-1 xl:gap-x-2 btn relative lg:pb-5 pb-0`}
+                         ref={refs[idx]}
+                         data-id={filter.id}
+                         data-open={open}
+                         onClick={() => {
+                            handleClosingOthers(filter.id)
+                         }}
+                      >
                         <Text className={'font-bold text-lg uppercase text-black'}>{filter.label}</Text>
                         <IconCaret direction={open ? 'up' : 'down'} />
                       </Disclosure.Button>
@@ -330,7 +358,7 @@ function filterInputToParams(type, rawInput, params, appliedCustomFilters) {
 
 export default function SortMenu() {
   const items = [
-    {label: 'Featured', key: 'featured'},
+    {label: 'Relevance', key: ''},
     {
       label: 'Price: Low - High',
       key: 'price-low-high',
