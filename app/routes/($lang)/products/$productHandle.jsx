@@ -119,13 +119,23 @@ export default function Product() {
     <>
        <Section className="px-0 py-4 product-main">
        <div className="container mx-auto overflow-x-hidden">
+            {/* Breadcrumb */}
+            <div className="Breadcrumb mb-5" aria-label="Breadcrumb">
+              <ol className="flex flex-wrap gap-1 items-center text-black text-xs font-semibold mb-8 md:mb-0">
+                <li> <a href="#">Men</a> </li>
+                <li> <span>/</span> </li>
+                <li> <a href="#">Clothing</a> </li>
+                <li> <span>/</span> </li>
+                <li> <span>Clothing</span> </li>
+              </ol>
+            </div>
             <div className="flex flex-wrap">
                 <ProductGallery
                   media={media.nodes}
-                  className="w-full lg:w-2/4 product-gallery-wrap"
+                  className="w-full lg:w-3/5 product-gallery-wrap"
                 />
-                <div className="w-full lg:w-2/4 product-info-wrap relative">
-                    <Heading as="h1" className="whitespace-normal">
+                <div className="w-full lg:w-2/5 product-info-wrap relative">
+                    <Heading as="h1" className="whitespace-normal text-lg text-black font-black mb-5">
                       {title}
                     </Heading>
                     <ProductForm />
@@ -227,7 +237,7 @@ export function ProductForm() {
   };
 
   return (
-    <div className="grid gap-10">
+    <div className="variant-btn-wrap">
       <div className="grid gap-4">
         <ProductOptions
           options={product.options}
@@ -301,10 +311,10 @@ function ProductOptions({options, searchParamsWithDefaults}) {
             key={option.name.toString()}
             className="flex flex-col flex-wrap mb-4 gap-y-2 last:mb-0"
           >
-            <Heading as="legend" size="lead" className="min-w-[4rem]">
+            <Heading as="h4" className="text-base text-black font-bold">
               {option.name}
             </Heading>
-            <div className="flex flex-wrap items-baseline gap-4">
+            <div className="flex flex-wrap gap-x-4 gap-y-3">
               <>
                   {option.values.map((value) => {
                     const checked =
@@ -322,11 +332,11 @@ function ProductOptions({options, searchParamsWithDefaults}) {
                                 optionValue={value}
                                 searchParams={searchParamsWithDefaults}
                                 className={clsx(
-                                  'leading-none py-1 border-b-[1.5px] cursor-pointer transition-all duration-200',
-                                  checked ? 'border-primary/ 50' : 'border-primary/0',
+                                  'border-4 block rounded-full transition-all outline-2 outline',
+                                  checked ? 'outline-primary border-transparent' : 'border-gray-100 outline-transparent',
                                 )}
                               >
-                                <div className='rounded-full h-5 w-6' style={{ backgroundColor: value }}></div>
+                                <div className='rounded-full h-8 w-8' style={{ backgroundColor: value }}></div>
                                 <span className='sr-only'>{value}</span>
                               </ProductOptionLink>
                             </>
@@ -336,8 +346,8 @@ function ProductOptions({options, searchParamsWithDefaults}) {
                               optionValue={value}
                               searchParams={searchParamsWithDefaults}
                               className={clsx(
-                                'leading-none py-1 border-b-[1.5px] cursor-pointer transition-all duration-200',
-                                checked ? 'border-primary/ 50' : 'border-primary/0',
+                                'border border-black hover:text-white hover:bg-black rounded-none w-10 min-w-fit h-10 flex justify-center items-center text-center text-sm p-1 text-balck font-semibold transition-all',
+                                checked ? 'text-white bg-black' : '',
                               )}
                             />
                           </Text>)
