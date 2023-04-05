@@ -3,7 +3,7 @@ import { Section, Link, Heading } from '~/components';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-export function StyleGuide({ title = 'STYLE GUIDE', image_1, image_2, ...props }) {
+export function StyleGuide({ title = 'STYLE GUIDE', image_1, image_2, image_1_redirect, image_2_redirect, ...props }) {
 
   return (
     <div className="styleGuide-section bg-white py-6 sm:py-7 md:py-10 lg:py-14 xl:py-20">
@@ -35,26 +35,26 @@ export function StyleGuide({ title = 'STYLE GUIDE', image_1, image_2, ...props }
         >
           <SwiperSlide>
             <div className="items h-full">
-              <a href="#">
+              <Link  to={`${image_1_redirect?.value}`}>
                 <div className="overflow-hidden h-full">
                   <img
                     className="hover:scale-110 transition hover:duration-500 object-cover object-center h-full w-full"
                     src={image_1?.reference?.image?.url}
                   ></img>
                 </div>
-              </a>
+              </Link>
             </div>
           </SwiperSlide>
           <SwiperSlide>
             <div className="items h-full">
-              <a href="#">
+            <Link  to={`${image_2_redirect?.value}`}>
                 <div className="overflow-hidden h-full">
                   <img
                     className="hover:scale-110 transition hover:duration-500 object-cover object-center h-full w-full"
                     src={image_2?.reference?.image?.url}
                   ></img>
                 </div>
-              </a>
+              </Link>
             </div>
           </SwiperSlide>
         </Swiper>

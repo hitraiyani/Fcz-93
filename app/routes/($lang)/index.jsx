@@ -15,6 +15,16 @@ import {MEDIA_FRAGMENT, PRODUCT_CARD_FRAGMENT} from '~/data/fragments';
 import {getHeroPlaceholder} from '~/lib/placeholders';
 import {AnalyticsPageType} from '@shopify/hydrogen';
 
+
+const seo = ({data}) => ({
+  title: data?.layout?.shop?.name,
+  titleTemplate: '%s',
+});
+
+export const handle = {
+  seo,
+};
+
 export async function loader({params, context}) {
   const {language, country} = context.storefront.i18n;
 
@@ -44,6 +54,7 @@ export async function loader({params, context}) {
       variables: {metaObjectId: 'gid://shopify/Metaobject/1932329281'},
     },
   );
+
 
   const fittingEveryOne = context.storefront.query(
     HOMEPAGE_FITTING_EVERYONE_QUERY,
@@ -148,6 +159,8 @@ export default function Homepage() {
                 <StyleGuide
                   title={data.title}
                   image_1={data.image_1}
+                  image_1_redirect={data.image_1_redirect}
+                  image_2_redirect={data.image_2_redirect}
                   image_2={data.image_2}
                   count={2}
                 />
@@ -257,6 +270,12 @@ ${MEDIA_FRAGMENT}
       id
       type
       title : field(key: "title") {
+        value
+      }
+      image_1_redirect : field(key: "image_1_redirect") {
+        value
+      }
+      image_2_redirect : field(key: "image_2_redirect") {
         value
       }
       image_1 : field(key: "image_1") {
