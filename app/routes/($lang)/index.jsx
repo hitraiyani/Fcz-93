@@ -67,8 +67,8 @@ export async function loader({params, context}) {
     FEATURED_SALE_COLLECTIONS_QUERY,
     {
       variables: {
-        ids: top_sale_collection.collection.value
-          ? [top_sale_collection.collection.value]
+        ids: top_sale_collection?.collection?.value
+          ? [top_sale_collection?.collection?.value]
           : [],
         country,
         language,
