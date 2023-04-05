@@ -121,14 +121,14 @@ export function FiltersDrawer({
   }
   return (
     <>
-      <Heading as="h4" size="lead" className='font-bold text-lg uppercase text-black lg:hidden relative flex items-center pr-5 cursor-pointer filter-toggle-btn' onClick={filterHandleclick}>
+      <Heading as="h4" size="lead" className='font-bold text-lg uppercase text-black lg:hidden relative flex items-center pr-5 cursor-pointer filter-toggle-btn mx-auto' onClick={filterHandleclick}>
           Filter
           <IconCaret direction="down" />
       </Heading>
         <div className={`${isActive ? 'block' : 'hidden'} mobile-filter-overlay  fixed inset-0 bg-black bg-opacity-70 opacity-100 z-50`}  onClick={filterHandleclick}></div>
       <div className={`${isActive ? 'active' : ''} filter-wrap-main flex-1`}>
         <div className=''>
-          <Heading as="h4" size="lead" className='font-black text-lg uppercase text-black lg:hidden relative flex items-center px-5 pt-4 pb-4 border-b border-white mb-4 justify-between filter-toggle-btn'>
+          <Heading as="h4" size="lead" className='font-black text-lg uppercase text-black lg:hidden relative flex items-center px-0 pt-4 pb-4 border-b border-white mb-4 justify-between filter-toggle-btn mx-auto'>
               Filter
               <IconClose onClick={filterHandleclick} className={'cursor-pointer'} />
           </Heading>

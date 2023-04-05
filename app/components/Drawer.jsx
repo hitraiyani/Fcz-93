@@ -52,7 +52,7 @@ export function Drawer({heading, open, onClose, openFrom = 'right', children,cla
               >
                 <Dialog.Panel className={`${className} w-screen max-w-lg text-left align-middle transition-all transform shadow-xl h-screen-dynamic bg-contrast`}>
                   <header
-                    className={`relative flex items-center h-nav ${
+                    className={`relative flex items-center h-nav mb-5 ${
                       heading ? 'justify-between' : 'justify-end'
                     }`}
                   >

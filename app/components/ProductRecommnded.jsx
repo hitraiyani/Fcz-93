@@ -16,13 +16,13 @@ export function ProductRecommnded({
   //const items = products.filter((item) => item.image).length;
 
   return (
-    <Section {...props} className={`${className} TopSaleHomeProduct  py-10`}>
+    <Section {...props} className={`${className} TopSaleHomeProduct  py-10 xl:pt-12 xl:pb-20`}>
       <div className="container mx-auto">
         <Heading
           heading={title}
           {...props}
           className={
-            'text-black text-center w-full text-4xl lg:text-5xl pb-6 lg:pb-9 font-black uppercase italic'
+            'text-black text-center w-full text-2xl lg:text-3xl pb-6 lg:pb-9 font-black uppercase'
           }
         >
           {title}
@@ -43,7 +43,7 @@ export function ProductRecommnded({
                     className="block relative"
                     to={`/products/${product.handle}`}
                   >
-                    <div className="card-image aspect-[2/2] bg-white border-2 border-black">
+                    <div className="card-image aspect-[2/2] bg-white border border-gray-600">
                       {inDisc && (
                         <Text
                           as="label"
@@ -95,11 +95,11 @@ export function ProductRecommnded({
           {title_handle && (
             <div className="pro-item-last w-2/4 xl:w-1/4 px-2">
               <Link
-                className="flex pb-3 relative border-4 border-black p-3 items-end aspect-square"
+                className="flex pb-3 relative border-4 border-primary p-3 items-end aspect-square"
                 to={`/collections/${title_handle}`}
               >
-                <div className="font-black text-lg md:text-4xl text-black italic leading-none">
-                  EXPORE <br/>EVERYTHING <span className='text-black block font-medium text-2xl sm:text-4xl md:text-5xl'>>>>>>>>>>>>>></span>
+                <div className="font-black text-lg md:text-4xl text-black leading-none uppercase">
+                SHOW ME <br/>MORE <span className='primary-color block font-medium text-2xl sm:text-4xl md:text-5xl'>>>>>>>>>>>>>></span>
                 </div>
               </Link>
             </div>

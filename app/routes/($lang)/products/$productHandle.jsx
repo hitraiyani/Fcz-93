@@ -120,8 +120,8 @@ export default function Product() {
        <Section className="px-0 py-4 product-main">
        <div className="container mx-auto overflow-x-hidden">
             {/* Breadcrumb */}
-            <div className="Breadcrumb mb-5" aria-label="Breadcrumb">
-              <ol className="flex flex-wrap gap-1 items-center text-black text-xs font-semibold mb-8 md:mb-0">
+            <div className="Breadcrumb mb-4" aria-label="Breadcrumb">
+              <ol className="flex flex-wrap gap-1 items-center text-black text-xs font-semibold">
                 <li> <a href="#">Men</a> </li>
                 <li> <span>/</span> </li>
                 <li> <a href="#">Clothing</a> </li>
@@ -129,20 +129,23 @@ export default function Product() {
                 <li> <span>Clothing</span> </li>
               </ol>
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap gap-y-3">
+                <Heading as="h1" className="lg:hidden whitespace-normal text-lg text-black font-black">
+                      {title}
+                  </Heading>
                 <ProductGallery
                   media={media.nodes}
                   className="w-full lg:w-3/5 product-gallery-wrap"
                 />
-                <div className="w-full lg:w-2/5 product-info-wrap relative">
-                    <Heading as="h1" className="whitespace-normal text-lg text-black font-black mb-5">
+                <div className="w-full lg:w-2/5 product-info-wrap relative pt-4 lg:pt-0">
+                    <Heading as="h1" className="hidden lg:block whitespace-normal text-lg text-black font-black mb-5">
                       {title}
                     </Heading>
                     <ProductForm />
-                    <div className="description-wrap">
+                    <div className="description-wrap mt-7">
                       {descriptionHtml && (
                         <div
-                          className=""
+                          className="text-base font-normal"
                           dangerouslySetInnerHTML={{__html: descriptionHtml}}
                         />
                       )}
@@ -246,7 +249,7 @@ export function ProductForm() {
         {selectedVariant && (
          <>
            <div className="flex gap-1">
-          <Text className="flex gap-1 text-lg price">
+            <Text className="max-w-prose whitespace-pre-wrap text-copy flex gap-3 text-lg font-bold text-black">
             <Money
               withoutTrailingZeros
               data={selectedVariant?.price}
@@ -257,7 +260,7 @@ export function ProductForm() {
                 withoutTrailingZeros
                 data={selectedVariant?.compareAtPrice}
                 as="span"
-                className="text-gray-400 line-through"
+                className="strike text-black line-through font-medium"
               />
             )}
           </Text>
@@ -272,6 +275,7 @@ export function ProductForm() {
               ]}
               variant={isOutOfStock ? 'secondary' : 'primary'}
               data-test="add-to-cart"
+              className='btn add-to-cart-btn bg-black text-white font-semibold text-lg w-full mx-auto py-1 md:py-2 px-5 hover:opacity-75 transition-all uppercase'
               analytics={{
                 products: [productAnalytics],
                 totalValue: parseFloat(productAnalytics.price),
@@ -288,8 +292,8 @@ export function ProductForm() {
                 </Text>
               )}
             </AddToCartButton>
-              <button onClick={ isAdded ?  handleRemoveWishlist : handleAddWishlist } className="w-full  primary-bg-color flex justify-center rounded font-medium  py-3 px-6 border border-black bg-primary text-contrast" >
-                <IconHeart fill= {isAdded ? '#555' : 'none'}/>&nbsp; FAVOURITE
+              <button onClick={ isAdded ?  handleRemoveWishlist : handleAddWishlist } className="btn Wishlist-btn primary-bg-color text-black font-semibold text-lg w-full mx-auto py-1 md:py-2 px-5 hover:opacity-75 transition-all flex justify-center items-center border-b-2 border-black uppercase gap-2" >
+                <IconHeart fill= {isAdded ? '#000' : 'none'}/>FAVOURITE
              </button>
           </div>
          </>
@@ -311,7 +315,7 @@ function ProductOptions({options, searchParamsWithDefaults}) {
             key={option.name.toString()}
             className="flex flex-col flex-wrap mb-4 gap-y-2 last:mb-0"
           >
-            <Heading as="h4" className="text-base text-black font-bold">
+            <Heading as="h4" className="text-base text-black font-bold mb-2">
               {option.name}
             </Heading>
             <div className="flex flex-wrap gap-x-4 gap-y-3">

@@ -38,7 +38,7 @@ export function ProductGallery({media, className}) {
     <div
       className={` ${className}`}
     >
-      <div className="slider__flex flex flex-wrap items-start">
+      <div className="slider__flex flex flex-wrap flex-col-reverse md:flex-row items-start gap-y-4">
         <div className="slider__col">
           <Swiper
             onSwiper={setThumbsSwiper}
@@ -142,6 +142,7 @@ export function ProductGallery({media, className}) {
             navigation
             onSwiper={(swiper) => { }}
             onSlideChange={() => console.log('slide change')}
+            autoHeight= "true"
           >
             {media.map((med, i) => {
               let mediaProps = {};
