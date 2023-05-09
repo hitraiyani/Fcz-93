@@ -129,7 +129,7 @@ export default function Product() {
                 <li> <span>Clothing</span> </li>
               </ol>
             </div>
-            <div className="flex flex-wrap gap-y-3">
+            <div className="flex flex-wrap gap-y-3 pb-[40px]">
                 <Heading as="h1" className="lg:hidden whitespace-normal text-lg text-black font-black">
                       {title}
                   </Heading>
@@ -350,7 +350,7 @@ function ProductOptions({options, searchParamsWithDefaults}) {
                               optionValue={value}
                               searchParams={searchParamsWithDefaults}
                               className={clsx(
-                                'border border-black hover:text-white hover:bg-black rounded-none w-10 min-w-fit h-10 flex justify-center items-center text-center text-sm p-1 text-balck font-semibold transition-all',
+                                'border border-black hover:text-white hover:bg-black rounded-none w-fit min-w-[40px] h-[40px] flex justify-center items-center text-center text-sm p-1 text-balck font-semibold transition-all',
                                 checked ? 'text-white bg-black' : '',
                               )}
                             />
