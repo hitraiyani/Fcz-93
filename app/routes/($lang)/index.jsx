@@ -72,7 +72,7 @@ export default function countdown() {
               </div>
               <div className="bottom-info">
                 <h2 className="text-center text-white text-[24px] md:text-[28px] leading-[1.2] font-black max-w-[544px] mx-auto uppercase">
-                  It’s Not Over ’til It’s Over
+                  It’s Not Over <br />’til It’s Over
                 </h2>
               </div>
             </div>

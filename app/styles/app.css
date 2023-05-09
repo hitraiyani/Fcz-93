@@ -479,7 +479,7 @@ a:hover {
 .product-info-wrap .Wishlist-btn {
   border-bottom-width: 3px;
 }
-.description-wrap p{
+.description-wrap p {
   margin-bottom: 0;
 }
 @media (max-width: 767px) {
@@ -498,3 +498,11 @@ a:hover {
   }
 }
 /* End single product page  */
+
+/* countdown-sec  */
+@media (min-width: 768px) {
+  .countdown-sec .bottom-info h2 br {
+    display: none;
+  }
+}
+/* End countdown-sec  */
