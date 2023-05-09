@@ -110,7 +110,7 @@ export async function loader({params, request, context}) {
 export default function Product() {
   const {product} = useLoaderData();
 
-  const collectionProducts = product?.collections?.nodes[0].products?.nodes?.filter((prod) => prod.id != product.id);
+  const collectionProducts = product?.collections?.nodes[0]?.products?.nodes?.filter((prod) => prod.id != product.id);
   const recommendedProducts = collectionProducts?.slice(0, 3);
 
   const {media, title, descriptionHtml} = product;
@@ -154,7 +154,7 @@ export default function Product() {
             </div>
         </div>
       </Section>
-      <ProductRecommnded title="RECOMMENDED FOR YOU" title_handle={`collections/${product.collections.nodes[0].handle}`} products={recommendedProducts} />
+      <ProductRecommnded title="RECOMMENDED FOR YOU" title_handle={`collections/${product?.collections?.nodes[0]?.handle}`} products={recommendedProducts} />
     </>
   );
 }
@@ -564,7 +564,7 @@ async function getRecommendedProducts(storefront, productId) {
   invariant(products, 'No data returned from Shopify API');
 
   const mergedProducts = products.recommended
-    .concat(products.additional.nodes)
+    .concat(products?.additional?.nodes)
     .filter(
       (value, index, array) =>
         array.findIndex((value2) => value2.id === value.id) === index,
