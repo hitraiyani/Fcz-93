@@ -741,6 +741,12 @@ video {
 .h-screen {
   height: 100vh;
 }
+.h-\[32px\] {
+  height: 32px;
+}
+.h-\[35px\] {
+  height: 35px;
+}
 .max-h-0 {
   max-height: 0px;
 }
@@ -795,6 +801,12 @@ video {
 .w-screen {
   width: 100vw;
 }
+.w-\[32px\] {
+  width: 32px;
+}
+.w-\[35px\] {
+  width: 35px;
+}
 .min-w-fit {
   min-width: -moz-fit-content;
   min-width: fit-content;
@@ -815,8 +827,8 @@ video {
 .max-w-\[544px\] {
   max-width: 544px;
 }
-.max-w-\[636px\] {
-  max-width: 636px;
+.max-w-\[800px\] {
+  max-width: 800px;
 }
 .max-w-fit {
   max-width: -moz-fit-content;
@@ -833,12 +845,6 @@ video {
 }
 .max-w-prose {
   max-width: 65ch;
-}
-.max-w-\[700px\] {
-  max-width: 700px;
-}
-.max-w-\[800px\] {
-  max-width: 800px;
 }
 .flex-1 {
   flex: 1 1 0%;
@@ -997,20 +1003,14 @@ video {
 .gap-8 {
   gap: 2rem;
 }
-.gap-\[100px\] {
-  gap: 100px;
-}
-.gap-\[30px\] {
-  gap: 30px;
-}
-.gap-\[120px\] {
-  gap: 120px;
+.gap-\[50px\] {
+  gap: 50px;
 }
 .gap-\[77px\] {
   gap: 77px;
 }
-.gap-\[50px\] {
-  gap: 50px;
+.gap-\[15px\] {
+  gap: 15px;
 }
 .gap-x-1 {
   -moz-column-gap: 0.25rem;
@@ -1216,6 +1216,9 @@ video {
 .fill-white {
   fill: #fff;
 }
+.stroke-\[\#fff\] {
+  stroke: #fff;
+}
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -1317,10 +1320,6 @@ video {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-.py-\[100px\] {
-  padding-top: 100px;
-  padding-bottom: 100px;
 }
 .py-\[50px\] {
   padding-top: 50px;
@@ -1442,11 +1441,11 @@ video {
   font-size: 2.25rem;
   line-height: 2.5rem;
 }
-.text-\[28px\] {
-  font-size: 28px;
+.text-\[24px\] {
+  font-size: 24px;
 }
-.text-\[84px\] {
-  font-size: 84px;
+.text-\[72px\] {
+  font-size: 72px;
 }
 .text-base {
   font-size: 1rem;
@@ -1467,12 +1466,6 @@ video {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-.text-\[24px\] {
-  font-size: 24px;
-}
-.text-\[72px\] {
-  font-size: 72px;
 }
 .font-black {
   font-weight: 900;
@@ -2035,6 +2028,14 @@ video {
     line-height: 1;
   }
 
+  .md\:text-\[28px\] {
+    font-size: 28px;
+  }
+
+  .md\:text-\[84px\] {
+    font-size: 84px;
+  }
+
   .md\:text-base {
     font-size: 1rem;
     line-height: 1.5rem;
@@ -2043,14 +2044,6 @@ video {
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
-  }
-
-  .md\:text-\[28px\] {
-    font-size: 28px;
-  }
-
-  .md\:text-\[84px\] {
-    font-size: 84px;
   }
 
   .md\:leading-5 {
@@ -2123,10 +2116,6 @@ video {
 
   .lg\:gap-6 {
     gap: 1.5rem;
-  }
-
-  .lg\:gap-\[80px\] {
-    gap: 80px;
   }
 
   .lg\:gap-y-12 {

@@ -479,6 +479,9 @@ a:hover {
 .product-info-wrap .Wishlist-btn {
   border-bottom-width: 3px;
 }
+.description-wrap p{
+  margin-bottom: 0;
+}
 @media (max-width: 767px) {
   .product-gallery-wrap .slider__images {
     width: calc(100% + 30px);

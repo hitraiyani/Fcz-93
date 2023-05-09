@@ -17,6 +17,7 @@ import {
   Cart,
   CartLoading,
   Link,
+  IconHeart2,
 } from '~/components';
 import {useParams, Form, Await, useMatches} from '@remix-run/react';
 import {useWindowScroll} from 'react-use';
@@ -213,10 +214,7 @@ function MenuMobileNav({menu, onClose, isHome}) {
         {/* Top level menu items */}
         {(menu?.items || []).map((item) => {
           return (
-            <div
-              className="nav-item relative"
-              key={item.id}
-            >
+            <div className="nav-item relative" key={item.id}>
               {item.to != '/' ? (
                 <>
                   <Link
@@ -233,7 +231,10 @@ function MenuMobileNav({menu, onClose, isHome}) {
                   <span className="text-white font-semibold text-lg py-3 block nav-link cursor-pointer">
                     {item.title}
                   </span>
-                  <span  onClick={megaMenuMobileClick} className="toggle-btn absolute right-0 top-0 w-10 h-14 text-white flex items-center justify-center cursor-pointer">
+                  <span
+                    onClick={megaMenuMobileClick}
+                    className="toggle-btn absolute right-0 top-0 w-10 h-14 text-white flex items-center justify-center cursor-pointer"
+                  >
                     <svg
                       className="icon"
                       xmlns="http://www.w3.org/2000/svg"
@@ -310,7 +311,12 @@ function MobileHeader({title, isHome, openCart, openMenu}) {
             </Link>
           </div>
 
-          <div className="flex items-center justify-end gap-4 flex-1">
+          <div className="flex items-center justify-end gap-[15px] flex-1">
+            <div className="wishlist-wrap">
+              <div className="wishlist-icon text-white">
+                <IconHeart2 className={'w-[35px] h-[35px]'} />
+              </div>
+            </div>
             <CartCount isHome={isHome} openCart={openCart} />
           </div>
         </div>
@@ -383,6 +389,11 @@ function DesktopHeader({isHome, menu, openCart, title}) {
                 Login
               </Link>
             </div>
+            <div className="wishlist-wrap">
+              <div className="wishlist-icon text-white">
+                <IconHeart2 className={'w-[35px] h-[35px]'} />
+              </div>
+            </div>
             <div className="cart-wrap relative text-white">
               <CartCount isHome={isHome} openCart={openCart} />
             </div>
@@ -429,7 +440,6 @@ function DesktopHeader({isHome, menu, openCart, title}) {
 }
 
 function SubMegaMenu({menu_items}) {
-  
   const megaSubMenuMobileClick = (event) => {
     event.currentTarget.parentNode.classList.toggle('active');
   };
@@ -445,7 +455,10 @@ function SubMegaMenu({menu_items}) {
             <h2 className="sub-menu-title primary-color font-semibold text-lg block uppercase pb-2">
               {item.title}
             </h2>
-            <span onClick={megaSubMenuMobileClick} className="toggle-btn absolute right-0 top-0 w-10 h-7 text-white flex items-center justify-center cursor-pointer md:hidden">
+            <span
+              onClick={megaSubMenuMobileClick}
+              className="toggle-btn absolute right-0 top-0 w-10 h-7 text-white flex items-center justify-center cursor-pointer md:hidden"
+            >
               <svg
                 className="icon"
                 xmlns="http://www.w3.org/2000/svg"
