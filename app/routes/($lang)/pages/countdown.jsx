@@ -78,8 +78,7 @@ export default function countdown() {
             </div>
           </div>
         </div> 
-      </section> 
-      <p></p>
+      </section>
     </>
   );
 }
