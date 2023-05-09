@@ -98,12 +98,9 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Layout
-          layout={data.layout}
-          key={`${locale.language}-${locale.country}`}
-        >
+       
           <Outlet />
-        </Layout>
+       
         <ScrollRestoration />
         <Scripts />
       </body>
