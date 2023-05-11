@@ -26,6 +26,7 @@ import swiper from 'swiper/css';
 import swiper_navigation from 'swiper/css/navigation';
 import swiper_pagination from 'swiper/css/pagination';
 import swiper_scrollbar from 'swiper/css/scrollbar';
+import {useIsHomePath} from '~/lib/utils';
 
 
 const seo = ({data, pathname}) => ({
@@ -87,6 +88,8 @@ export default function App() {
   const data = useLoaderData();
   const locale = data.selectedLocale ?? DEFAULT_LOCALE;
   const hasUserConsent = true;
+  const isHome = useIsHomePath();
+
 
   useAnalytics(hasUserConsent, locale);
 
@@ -98,9 +101,13 @@ export default function App() {
         <Links />
       </head>
       <body>
-       
-          <Outlet />
-       
+       {isHome ?  (<Outlet />) : (<Layout
+         layout={data.layout}
+         key={`${locale.language}-${locale.country}`}
+        >
+         <Outlet />
+        </Layout>)}
+        
         <ScrollRestoration />
         <Scripts />
       </body>

@@ -1,4 +1,4 @@
-import {useRef, useMemo,  useState, useEffect} from 'react';
+import {useRef, useMemo, useState, useEffect} from 'react';
 
 import {Disclosure, Listbox} from '@headlessui/react';
 import {defer} from '@shopify/remix-oxygen';
@@ -8,6 +8,7 @@ import {
   useSearchParams,
   useLocation,
   useTransition,
+  useMatches
 } from '@remix-run/react';
 import {
   AnalyticsPageType,
@@ -109,6 +110,7 @@ export async function loader({params, request, context}) {
 
 export default function Product() {
   const {product} = useLoaderData();
+  const [root] = useMatches();
 
   const collectionProducts = product?.collections?.nodes[0]?.products?.nodes?.filter((prod) => prod.id != product.id);
   const recommendedProducts = collectionProducts?.slice(0, 3);
@@ -171,22 +173,34 @@ export function ProductForm() {
   const [isAdded, setIsAdded] = useState(false);
 
   useEffect(() => {
+    const intervalId = setInterval(() => {
+      const localUserWishList = localStorage.getItem('user_wishlist') ? JSON.parse(localStorage.getItem('user_wishlist')) : [];
+      if (isAdded) {
+          if (!localUserWishList.includes(product.id)) {
+              setIsAdded(false);
+          }
+      }
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [isAdded]);
+
+  useEffect(() => {
     setIsAdded(false);
     if (localStorage.getItem('user_wishlist')) {
       const wishlist = JSON.parse(localStorage.getItem('user_wishlist'));
-      if (wishlist.includes(product.handle)) { 
+      if (wishlist.includes(product.id)) {
         setIsAdded(true);
       }
     }
   }, [product.handle]);
 
   const handleAddWishlist = () => {
-    addFavouriteProduct(product.handle);
+    addFavouriteProduct(product.id);
     setIsAdded(true);
   };
 
   const handleRemoveWishlist = () => {
-    removeFavouriteProduct(product.handle);
+    removeFavouriteProduct(product.id);
     setIsAdded(false);
   };
 

@@ -10,6 +10,7 @@ export {Skeleton} from './Skeleton';
 export {Button} from './Button';
 export {CountrySelector} from './CountrySelector';
 export {Cart} from './Cart';
+export {WishListCart} from './WishListCart';
 export {CartLoading} from './CartLoading';
 export {OrderCard} from './OrderCard';
 export {AccountDetails} from './AccountDetails';

@@ -18,12 +18,13 @@ import {
   CartLoading,
   Link,
   IconHeart2,
+  WishListCart
 } from '~/components';
 import {useParams, Form, Await, useMatches} from '@remix-run/react';
 import {useWindowScroll} from 'react-use';
 import {Disclosure} from '@headlessui/react';
-import {Suspense, useEffect, useMemo} from 'react';
 import {useIsHydrated} from '~/hooks/useIsHydrated';
+import {Suspense, useEffect, useState, useMemo} from 'react';
 import {useCartFetchers} from '~/hooks/useCartFetchers';
 import {Image} from '@shopify/hydrogen';
 
@@ -69,6 +70,37 @@ export function Layout({children, layout}) {
 function Header({title, menu}) {
   const isHome = useIsHomePath();
 
+  const [userWhishListItem, setUserWhishListItem] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+   //for user whishlist
+   const {
+    isOpen: isWishListOpen,
+    openDrawer: openWishList,
+    closeDrawer: closeWishList,
+  } = useDrawer();
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const localUserWishList = localStorage.getItem('user_wishlist') ? JSON.parse(localStorage.getItem('user_wishlist')) : [];
+      if (localUserWishList.length !== userWhishListItem.length) {
+        if (!isWishListOpen && isLoaded) {
+            openWishList();
+        }
+        setUserWhishListItem(localUserWishList);
+      }
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, [userWhishListItem, isWishListOpen, isLoaded]);
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoaded(true);
+    },1000)
+  },[]);
+
+
   const {
     isOpen: isCartOpen,
     openDrawer: openCart,
@@ -81,6 +113,8 @@ function Header({title, menu}) {
     closeDrawer: closeMenu,
   } = useDrawer();
 
+ 
+
   const addToCartFetchers = useCartFetchers('ADD_TO_CART');
 
   // toggle cart drawer when adding to cart
@@ -89,9 +123,11 @@ function Header({title, menu}) {
     openCart();
   }, [addToCartFetchers, isCartOpen, openCart]);
 
+
   return (
     <>
       <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+      <WishListDrawer isOpen={isWishListOpen} userWhishListItem={userWhishListItem} closeWishList={closeWishList} />
       {menu && (
         <MenuDrawer isOpen={isMenuOpen} onClose={closeMenu} menu={menu} />
       )}
@@ -100,12 +136,16 @@ function Header({title, menu}) {
         title={title}
         menu={menu}
         openCart={openCart}
+        openWishList={openWishList}
+        userWhishListItem={userWhishListItem}
       />
       <MobileHeader
         isHome={isHome}
         title={title}
         openCart={openCart}
         openMenu={openMenu}
+        openWishList={openWishList}
+        userWhishListItem={userWhishListItem}
       />
     </>
   );
@@ -128,6 +168,22 @@ function CartDrawer({isOpen, onClose}) {
             {(cart) => <Cart layout="drawer" onClose={onClose} cart={cart} />}
           </Await>
         </Suspense>
+      </div>
+    </Drawer>
+  );
+}
+
+function WishListDrawer({isOpen, closeWishList, userWhishListItem}) {
+  return (
+    <Drawer
+      open={isOpen}
+      onClose={closeWishList}
+      heading="WishList"
+      openFrom="right"
+      className="bg-white cart-Drawer p-10 overflow-auto"
+    >
+      <div className="grid">
+        <WishListCart layout="drawer" onClose={closeWishList} userWhishListItem={userWhishListItem} />
       </div>
     </Drawer>
   );
@@ -271,7 +327,7 @@ function MenuMobileNav({menu, onClose, isHome}) {
   );
 }
 
-function MobileHeader({title, isHome, openCart, openMenu}) {
+function MobileHeader({title, isHome, openCart, openMenu, openWishList, userWhishListItem}) {
   // useHeaderStyleFix(containerStyle, setContainerStyle, isHome);
 
   return (
@@ -313,8 +369,11 @@ function MobileHeader({title, isHome, openCart, openMenu}) {
 
           <div className="flex items-center justify-end gap-[15px] flex-1">
             <div className="wishlist-wrap">
-              <div className="wishlist-icon text-white">
+              <div className="wishlist-icon relative text-white" onClick={() => { openWishList() }}>
                 <IconHeart2 className={'w-[35px] h-[35px]'} />
+                <div className={`absolute top-0 right-0 counter`}>
+                  <span>{userWhishListItem ? userWhishListItem.length : 0 }</span>
+                </div>
               </div>
             </div>
             <CartCount isHome={isHome} openCart={openCart} />
@@ -325,7 +384,7 @@ function MobileHeader({title, isHome, openCart, openMenu}) {
   );
 }
 
-function DesktopHeader({isHome, menu, openCart, title}) {
+function DesktopHeader({isHome, menu, openCart, title, userWhishListItem, openWishList}) {
   const params = useParams();
   const {y} = useWindowScroll();
   return (
@@ -390,8 +449,11 @@ function DesktopHeader({isHome, menu, openCart, title}) {
               </Link>
             </div>
             <div className="wishlist-wrap">
-              <div className="wishlist-icon text-white">
+              <div className="wishlist-icon relative text-white" onClick={() => { openWishList() }}>
                 <IconHeart2 className={'w-[35px] h-[35px]'} />
+                <div className={`absolute top-0 right-0 counter`}>
+                  <span>{userWhishListItem ? userWhishListItem.length : 0 }</span>
+                </div>
               </div>
             </div>
             <div className="cart-wrap relative text-white">

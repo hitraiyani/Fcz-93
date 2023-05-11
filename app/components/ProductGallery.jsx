@@ -49,7 +49,7 @@ export function ProductGallery({media, className}) {
             centeredSlidesBounds="true"
             slidesPerView='auto'
             watchOverflow="true"
-            watchSlidesVisibility="true"
+            watchslidesvisibility="true"
             watchSlidesProgress="true"
             className="swiper-container1"
             breakpoints={{
