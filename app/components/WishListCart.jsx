@@ -50,6 +50,12 @@ export function CartDetails({layout, products, onClose}) {
       : 'pb-6 sm-max:pt-2 overflow-auto transition',
   ]);
 
+  const AddToCart = () =>  {
+    setTimeout(() => {
+        location.reload();
+    },200);
+  }
+
   return (
     <>
         {products.length == 0 ? <CartEmpty hidden={false} onClose={onClose} layout={layout} />: (
@@ -100,6 +106,7 @@ export function CartDetails({layout, products, onClose}) {
                                           </Heading>
                                           <div className="grid items-stretch gap-4">
                                               <AddToCartButton
+                                                  onClick={() => {AddToCart()}}
                                                   lines={[
                                                       {
                                                           merchandiseId: selectedVariant.id,
