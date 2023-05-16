@@ -154,7 +154,7 @@ export default function Collection() {
               collection={collection}
               url={`/collections/${collection.handle}`}
               data-test="product-grid"
-              className="w-2/4 lg:w-1/3 xl:w-1/4 px-2 lg:px-3 product-item"
+              className="w-2/4 lg:w-1/3 px-2 lg:px-3 product-item"
             />
           </div>
         </div>
