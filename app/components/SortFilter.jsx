@@ -72,7 +72,7 @@ export function FiltersDrawer({
              {filter.label == 'Color' ? (<><div className='rounded-full h-10 w-10' style={{ backgroundColor: option.label }}></div></>) : option.label}
           </Link></>) : 
           (<><><Link
-            className={`border border-black hover:text-white hover:bg-black rounded-none w-10 min-w-fit h-10 flex justify-center items-center text-center text-sm p-1 text-balck font-semibold transition-all ${appliedCustomFilters.includes(option.label) ? 'text-white bg-black' : ''}`}
+            className={`border border-black hover:text-white hover:bg-black rounded-none w-fit min-w-[40px] h-[40px] flex justify-center items-center text-center text-sm p-1 text-balck font-semibold transition-all ${appliedCustomFilters.includes(option.label) ? 'text-white bg-black' : ''}`}
             prefetch="intent"
             to={to}
           > 
