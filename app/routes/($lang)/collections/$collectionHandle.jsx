@@ -144,7 +144,7 @@ export default function Collection() {
           collections={collections}
           className="mb-6 sortFilter-wrap items-start"
         ></SortFilter>
-        <div className={`product-grid-row ${appliedFilters.length > 0 ? 'fillter-appplied' : ''} -mx-2 lg:-mx-3`}>
+        <div className={`product-grid-row ${appliedFilters.length > 0 ? 'fillter-appplied' : 'fillter-not-appplied'} -mx-2 lg:-mx-3`}>
           <div
             data-test="product-grid"
             className="flex flex-wrap gap-y-7 lg:gap-y-12 product-items"

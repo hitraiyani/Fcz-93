@@ -343,30 +343,30 @@ a:hover {
 
 /* collection page css */
 @media (min-width: 1280px) {
-  .product-items .product-item:nth-child(9n + 4),
-  .product-items .product-item:nth-child(9n + 5) {
+ .fillter-not-appplied .product-items .product-item:nth-child(9n + 4),
+ .fillter-not-appplied .product-items .product-item:nth-child(9n + 5) {
     width: 50%;
   }
-  .product-items .product-item:nth-child(9n + 6),
-  .product-items .product-item:nth-child(9n + 7),
-  .product-items .product-item:nth-child(9n + 8),
-  .product-items .product-item:nth-child(9n + 9) {
+ .fillter-not-appplied .product-items .product-item:nth-child(9n + 6),
+ .fillter-not-appplied .product-items .product-item:nth-child(9n + 7),
+ .fillter-not-appplied .product-items .product-item:nth-child(9n + 8),
+ .fillter-not-appplied .product-items .product-item:nth-child(9n + 9) {
     width: 25%;
   }
 }
 @media (max-width: 1279px) and (min-width: 1024px) {
-  .product-items .product-item:nth-child(5n + 4),
-  .product-items .product-item:nth-child(5n + 5) {
+ .fillter-not-appplied .product-items .product-item:nth-child(5n + 4),
+ .fillter-not-appplied .product-items .product-item:nth-child(5n + 5) {
     width: 50%;
   }
-  .product-items .product-item:nth-child(5n + 6),
-  .product-items .product-item:nth-child(5n + 7),
-  .product-items .product-item:nth-child(5n + 8) {
+ .fillter-not-appplied .product-items .product-item:nth-child(5n + 6),
+ .fillter-not-appplied .product-items .product-item:nth-child(5n + 7),
+ .fillter-not-appplied .product-items .product-item:nth-child(5n + 8) {
     width: 33.33%;
   }
 }
 @media (max-width: 1023px) {
-  .product-items .product-item:nth-child(3n + 3) {
+ .fillter-not-appplied .product-items .product-item:nth-child(3n + 3) {
     width: 100%;
   }
 }
