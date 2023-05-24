@@ -34,14 +34,14 @@ export default function countdown() {
           <div className="h-full">
             <div className="countdown-inner flex flex-col justify-evenly h-full gap-[50px] md:gap-[100px] xl:gap-[120px]">
               <div className="top-title">
-                <h1 className=" text-center text-[#efff00] text-[24px] md:text-[28px] leading-[1.2] font-black max-w-[544px] mx-auto uppercase">
+                <h1 className=" text-center text-[#efff00] text-[26px] sm:text-[40px] lg:text-[42px] xl:text-[54px] leading-[1.2] font-black max-w-[544px] mx-auto uppercase">
                   <span className="text-white block text-center">
                     93. FASHION
                   </span>
                   SOON AVAILABLE
                 </h1>
               </div>
-              <div className="timer-wrap max-w-[800px] mx-auto">
+              <div className="timer-wrap max-w-[800px] mx-auto hidden">
                 <div className="timer-row flex flex-col md:flex-row gap-[77px] justify-between">
                   <div className="day-wrap">
                     <p className="title uppercase text-[24px] md:text-[28px] leading-[1.2] font-black text-white text-center">
@@ -71,7 +71,7 @@ export default function countdown() {
                 </div>
               </div>
               <div className="bottom-info">
-                <h2 className="text-center text-white text-[24px] md:text-[28px] leading-[1.2] font-black max-w-[544px] mx-auto uppercase">
+                <h2 className="text-center text-white text-[26px] sm:text-[40px] lg:text-[42px] xl:text-[54px] leading-[1.2] font-black max-w-[544px] mx-auto uppercase">
                   It’s Not Over <br />’til It’s Over
                 </h2>
               </div>
