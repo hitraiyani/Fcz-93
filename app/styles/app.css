@@ -508,11 +508,3 @@ a:hover {
   }
 }
 /* End single product page  */
-
-/* countdown-sec  */
-@media (min-width: 768px) {
-  .countdown-sec .bottom-info h2 br {
-    display: none;
-  }
-}
-/* End countdown-sec  */
